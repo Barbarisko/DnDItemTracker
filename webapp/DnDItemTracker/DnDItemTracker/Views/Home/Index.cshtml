@@ -1,0 +1,288 @@
+﻿@model CharacterModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-2 mb-4">
+    <div class="row">
+        <div class="pt-4 col-sm-12 col-md-6">
+
+            @await Html.PartialAsync("_SpellTitle", Model.slotsModel)
+            @await Html.PartialAsync("_SpellSlots", Model.slotsModel)
+        </div>
+        <div class="pt-4 col-sm-12 col-md-6">
+            @await Html.PartialAsync("_SpellTitle", Model.specialPowerModel)
+            @await Html.PartialAsync("_SpellSlots", Model.specialPowerModel)
+        </div>
+
+        <div class="pt-4 col-sm-12 col-md-6">
+            <div class="container fs-2 fw-semibold  border rounded bg-light-subtle">
+                Consumables
+            </div>
+            <ul class="pt-2 list-group">
+                <li class="list-group-item">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-8 d-flex">
+                            <div class="fs-5 fw-semibold">
+                                Super Item
+                            </div>
+                            <span class="m-1 badge bg-secondary align-self-stretch">x5</span>
+                        </div>
+                        <div class="col-4 d-flex justify-content-end">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-primary btn-sm" style="width: 40px">+</button>
+                                <button type="button" class="btn btn-primary btn-sm" style="width: 40px">-</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-1 mb-1 d-flex align-items-center">
+                        <small class="col ms-3">
+                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print,
+                            graphic or web designs.
+                        </small>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-8 d-flex">
+                            <div class="fs-5 fw-semibold">
+                                Super Item
+                            </div>
+                            <span class="m-1 badge bg-secondary align-self-stretch">x5</span>
+                        </div>
+                        <div class="col-4 d-flex justify-content-end">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-primary btn-sm" style="width: 40px">+</button>
+                                <button type="button" class="btn btn-primary btn-sm" style="width: 40px">-</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-1 mb-1 d-flex align-items-center">
+                        <small class="col ms-3">
+                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print,
+                            graphic or web designs.
+                        </small>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-success" style="width: 100%;">
+                        Add
+                    </button>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="pt-4 col-sm-12 col-md-6">
+            <div class="container fs-2 fw-semibold border rounded bg-light-subtle">
+                Artifacts
+            </div>
+            <div class="pt-2 list-group">
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-8">
+                            <h5 class="p-1">Super Item </h5>
+                        </div>
+                        <div class="col-4 d-flex justify-content-end">
+                            <button type="button" class="btn btn-outline-danger btn-sm align-self-center">
+                                Reset All
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row m-1 d-flex align-items-center">
+                        <small class="col">
+                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out
+                            print,
+                            graphic or web designs.
+                        </small>
+                    </div>
+                    <div class="row ps-2 pb-2 form-check-inline">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-8">
+                            <h5 class="p-1">Super Item </h5>
+                        </div>
+                        <div class="col-4 d-flex justify-content-end">
+                            <button type="button" class="btn btn-outline-danger btn-sm align-self-center">
+                                Reset All
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row m-1 d-flex align-items-center">
+                        <small class="col">
+                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out
+                            print,
+                            graphic or web designs.
+                        </small>
+                    </div>
+                    <div class="row ps-2 pb-2 form-check-inline">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                        <input class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" id="inlineCheckbox1"
+                               value="">
+                    </div>
+                </div>
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-success" style="width: 100%;">
+                        Add
+                    </button>
+
+                </li>
+
+            </div>
+        </div>
+        <div class="pt-4 col-sm-12 col-md-6">
+            <div class="container  fs-2 fw-semibold border rounded bg-light-subtle">
+                Light
+            </div>
+            <ul class="pt-2 list-group">
+                <li class="list-group-item">
+                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="firstRadio"
+                           checked>
+                    <label class="form-check-label" for="firstRadio">First radio</label>
+                </li>
+                <li class="list-group-item">
+                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
+                           id="secondRadio">
+                    <label class="form-check-label" for="secondRadio">Second radio</label>
+                </li>
+                <li class="list-group-item">
+                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
+                           id="thirdRadio">
+                    <label class="form-check-label" for="thirdRadio">Third radio</label>
+                </li>
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-success" style="width: 100%;">
+                        Add
+                    </button>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="pt-4 col-sm-12 col-md-6">
+            <div class="container fs-2 fw-semibold  border rounded bg-light-subtle">
+                Money
+            </div>
+            <ul class="pt-2 list-group">
+                <li class="list-group-item">
+                    TODO
+                </li>
+            </ul>
+        </div>
+        <div class="pt-4 col-12">
+            <div class="container fs-2 fw-semibold  border rounded bg-light-subtle">
+                Backpack
+            </div>
+            <ul class="pt-2 list-group">
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-success" style="width: 100%;">
+                        Add
+                    </button>
+                </li>
+                <li class="list-group-item">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-8 d-flex">
+                            <div class="fs-5 fw-semibold">
+                                Rope
+                            </div>
+                            <span class="m-1 badge bg-secondary align-self-stretch">x5</span>
+                        </div>
+                        <div class="col-4 d-flex justify-content-end">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-primary btn-sm" style="width: 40px">+</button>
+                                <button type="button" class="btn btn-primary btn-sm" style="width: 40px">-</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-2 d-flex align-items-center">
+                        <small class="col">
+                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print,
+                            graphic or web designs.
+                        </small>
+                    </div>
+
+                    <div class="row m-1 justify-content-end">
+                        <div class="col-lg-4 col-9 btn-group" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-danger">Delete</button>
+                            <button type="button" class="btn btn-primary">Edit</button>
+                            <button type="button" class="btn btn-success">Duplicate</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-8 d-flex">
+                            <div class="fs-5 fw-semibold">
+                                Bottle
+                            </div>
+                            <span class="m-1 badge bg-secondary align-self-stretch">x5</span>
+                        </div>
+                        <div class="col-4 d-flex justify-content-end">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-primary btn-sm" style="width: 40px">+</button>
+                                <button type="button" class="btn btn-primary btn-sm" style="width: 40px">-</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-2 d-flex align-items-center">
+                        <small class="col">
+                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print,
+                            graphic or web designs.
+                        </small>
+                    </div>
+
+                    <div class="row m-1 justify-content-end">
+                        <div class="col-lg-4 col-9 btn-group" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-danger">Delete</button>
+                            <button type="button" class="btn btn-primary">Edit</button>
+                            <button type="button" class="btn btn-success">Duplicate</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
