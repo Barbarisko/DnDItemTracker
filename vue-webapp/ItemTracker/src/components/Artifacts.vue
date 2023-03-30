@@ -5,6 +5,11 @@ export default {
         name: String,
         descr: String,
         charges: Array
+    },
+    methods: {
+        onCheckBoxClick(event) {
+            this.$emit('CheckBoxClick', event.target.id, event.target.checked);
+        }
     }
 }
 </script>
@@ -26,11 +31,9 @@ export default {
         </small>
     </div>
     <div class="row ps-2 pb-2 form-check-inline">
-        <input v-for="charge in charges"
-         class="ms-2 mt-2 form-check-input big-checkbox" 
-         type="checkbox" id="inlineCheckbox1" value=""
-         :checked="charge">
-    </div>
+        <input v-for="(charge, index) in charges" :key="index" @click="onCheckBoxClick"
+            class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" :id="index" value="" :checked="charge">
+        </div>
 </template>
 
 <style scoped></style>

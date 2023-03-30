@@ -103,16 +103,38 @@ export default {
             return res;
         },
 
-        onUseSpellCharge(level_id, charge_id, checked){
+        onUseSpellCharge(level_id, charge_id, checked) {
             this.spellSlots.levels[level_id][charge_id] = checked;
         },
-        
-        onUseSPCharge(power_id, charge_id, checked){
+
+        onUseSPCharge(power_id, charge_id, checked) {
             this.spPowers.powers[power_id].charges[charge_id] = checked;
         },
-        
-        changeConsumableAmount(consumable_id, addition){
+
+        changeConsumableAmount(consumable_id, addition) {
             this.consumables[consumable_id].amount += addition;
+        },
+
+        onUseArtifactCharge(artifact_id, charge_id, checked) {
+            this.artifacts[artifact_id].charges[charge_id] = checked;
+        },
+
+        changeBackpackItemAmount(item_id, addition) {
+            this.bPItems[item_id].amount += addition;
+        },
+
+        deleteBackpackItem(item_id) {
+            this.bPItems.splice(item_id, 1);
+        },
+
+        duplicateBackpackItem(item_id) {
+            var new_item =                 {
+                    name: this.bPItems[item_id].name,
+                    descr: this.bPItems[item_id].descr,
+                    amount: this.bPItems[item_id].amount
+                }
+            
+            this.bPItems.push(new_item);
         }
     }
 }
@@ -128,7 +150,7 @@ export default {
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(charges, index) in spellSlots.levels" :key="index">
                         <SpellCharge :title="intToRoman(index + 1) + ' Level'" :charges="charges"
-                        @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)" />
+                            @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)" />
                     </li>
                 </ul>
             </div>
@@ -138,7 +160,7 @@ export default {
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(power, index) in spPowers.powers">
                         <SpellCharge :title="power.name" :charges="power.charges" :key="index"
-                        @CheckBoxClick="(id, checked) => onUseSPCharge(index, id, checked)" />
+                            @CheckBoxClick="(id, checked) => onUseSPCharge(index, id, checked)" />
                     </li>
                 </ul>
             </div>
@@ -148,7 +170,7 @@ export default {
                 <ul class="pt-2 list-group">
                     <li v-for="(item, index) in consumables" class="list-group-item">
                         <Consumable :name="item.name" :descr="item.descr" :amount="item.amount"
-                        @ChangeAmount="(addition) => changeConsumableAmount(index, addition)" />
+                            @ChangeAmount="(addition) => changeConsumableAmount(index, addition)" />
                     </li>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-success" style="width: 100%;">
@@ -162,8 +184,9 @@ export default {
             <div class="pt-4 col-sm-12 col-md-6">
                 <Title :title="'Artifacts'" />
                 <div class="pt-2 list-group">
-                    <div v-for="artif in artifacts" class="list-group-item">
-                        <Artifacts :name="artif.name" :descr="artif.descr" :charges="artif.charges" />
+                    <div v-for="(artif, index) in artifacts" class="list-group-item">
+                        <Artifacts :name="artif.name" :descr="artif.descr" :charges="artif.charges"
+                            @CheckBoxClick="(id, checked) => onUseArtifactCharge(index, id, checked)" />
                     </div>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-success" style="width: 100%;">
@@ -201,8 +224,11 @@ export default {
                             Add
                         </button>
                     </li>
-                    <li v-for="item in bPItems" class="list-group-item">
-                        <BackpackItem :name="item.name" :descr="item.descr" :amount="item.amount" />
+                    <li v-for="(item, index) in bPItems" class="list-group-item">
+                        <BackpackItem :name="item.name" :descr="item.descr" :amount="item.amount"
+                            @ChangeAmount="(addition) => changeBackpackItemAmount(index, addition)"
+                            @DuplicateItem="() => duplicateBackpackItem(index)"
+                            @DeleteItem="() => deleteBackpackItem(index)" />
                     </li>
                 </ul>
             </div>
