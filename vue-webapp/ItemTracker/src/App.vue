@@ -84,6 +84,12 @@ export default {
         intToRoman(num) {
             if (isNaN(num))
                 return NaN;
+            if (num == 1)
+                return "I";
+            if (num == 2)
+                return "II";
+            if (num == 3)
+                return "III";
             var digits = String(+num).split(""),
                 key = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM",
                     "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC",
@@ -95,6 +101,18 @@ export default {
             var res = Array(+digits.join("") + 1).join("M") + roman;
             console.log(res);
             return res;
+        },
+
+        onUseSpellCharge(level_id, charge_id, checked){
+            this.spellSlots.levels[level_id][charge_id] = checked;
+        },
+        
+        onUseSPCharge(power_id, charge_id, checked){
+            this.spPowers.powers[power_id].charges[charge_id] = checked;
+        },
+        
+        changeConsumableAmount(consumable_id, addition){
+            this.consumables[consumable_id].amount += addition;
         }
     }
 }
@@ -109,7 +127,8 @@ export default {
                 <TitleWithEdit :title="spellSlots.title" />
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(charges, index) in spellSlots.levels" :key="index">
-                        <SpellCharge :title="intToRoman(index + 1) + ' Level'" :charges="charges" />
+                        <SpellCharge :title="intToRoman(index + 1) + ' Level'" :charges="charges"
+                        @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)" />
                     </li>
                 </ul>
             </div>
@@ -118,7 +137,8 @@ export default {
                 <TitleWithEdit :title="spPowers.title" />
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(power, index) in spPowers.powers">
-                        <SpellCharge :title="power.name" :charges="power.charges" />
+                        <SpellCharge :title="power.name" :charges="power.charges" :key="index"
+                        @CheckBoxClick="(id, checked) => onUseSPCharge(index, id, checked)" />
                     </li>
                 </ul>
             </div>
@@ -126,8 +146,9 @@ export default {
             <div class="pt-4 col-sm-12 col-md-6">
                 <Title :title="'Consumables'" />
                 <ul class="pt-2 list-group">
-                    <li v-for="item in consumables" class="list-group-item">
-                        <Consumable :name="item.name" :descr="item.descr" :amount="item.amount" />
+                    <li v-for="(item, index) in consumables" class="list-group-item">
+                        <Consumable :name="item.name" :descr="item.descr" :amount="item.amount"
+                        @ChangeAmount="(addition) => changeConsumableAmount(index, addition)" />
                     </li>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-success" style="width: 100%;">

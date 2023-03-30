@@ -5,6 +5,16 @@ export default {
         name: String,
         descr: String,
         amount: Number
+    },
+    methods: {
+        use(event) {
+            if(this.amount <= 0)
+                return
+            this.$emit('ChangeAmount', -1)
+        },
+        add(event) {
+            this.$emit('ChangeAmount', 1)
+        }
     }
 }
 </script>
@@ -19,8 +29,8 @@ export default {
         </div>
         <div class="col-4 d-flex justify-content-end">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-primary btn-sm" style="width: 40px">+</button>
-                <button type="button" class="btn btn-primary btn-sm" style="width: 40px">-</button>
+                <button @click="use" type="button" class="btn btn-primary btn-sm" style="width: 40px">-</button>
+                <button @click="add" type="button" class="btn btn-primary btn-sm" style="width: 40px">+</button>
             </div>
         </div>
     </div>

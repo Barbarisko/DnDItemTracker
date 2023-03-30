@@ -6,22 +6,21 @@ export default {
     },
     methods: {
         onCheckBoxClick(event) {
-
-            this.charges[event.target.id] = event.target.checked;
+            this.$emit('CheckBoxClick', event.target.id, event.target.checked);
         },
         useOneOf(event) {
             var index = this.charges.findIndex(el => !el);
-            if (index === undefined) {
+            if (index == -1) {
                 return;
             }
-            this.charges[index] = true;
+            this.$emit('CheckBoxClick', index, true);
         },
         restoreOneOf(event) {
             var index = this.charges.findLastIndex(el => el);
-            if (index === undefined) {
+            if (index == -1) {
                 return;
             }
-            this.charges[index] = false;
+            this.$emit('CheckBoxClick', index, false);
         }
     }
 }
