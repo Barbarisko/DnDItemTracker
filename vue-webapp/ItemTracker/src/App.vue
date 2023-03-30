@@ -108,11 +108,12 @@ export default {
             <div class="pt-4 col-sm-12 col-md-6">
                 <TitleWithEdit :title="spellSlots.title" />
                 <ul class="pt-2 list-group">
-                    <li class="list-group-item" v-for="(charges, index) in spellSlots.levels">
+                    <li class="list-group-item" v-for="(charges, index) in spellSlots.levels" :key="index">
                         <SpellCharge :title="intToRoman(index + 1) + ' Level'" :charges="charges" />
                     </li>
                 </ul>
             </div>
+
             <div class="pt-4 col-sm-12 col-md-6">
                 <TitleWithEdit :title="spPowers.title" />
                 <ul class="pt-2 list-group">
@@ -152,27 +153,12 @@ export default {
 
                 </div>
             </div>
+
             <div class="pt-4 col-sm-12 col-md-6">
                 <Title :title="'Light'" />
                 <ul class="pt-2 list-group">
                     <li class="list-group-item">
-                        <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="firstRadio"
-                            checked>
-                        <label class="form-check-label" for="firstRadio">First radio</label>
-                    </li>
-                    <li class="list-group-item">
-                        <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="secondRadio">
-                        <label class="form-check-label" for="secondRadio">Second radio</label>
-                    </li>
-                    <li class="list-group-item">
-                        <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="thirdRadio">
-                        <label class="form-check-label" for="thirdRadio">Third radio</label>
-                    </li>
-                    <li class="list-group-item">
-                        <button type="button" class="btn btn-success" style="width: 100%;">
-                            Add
-                        </button>
-
+                        TODO
                     </li>
                 </ul>
             </div>
@@ -185,6 +171,7 @@ export default {
                     </li>
                 </ul>
             </div>
+
             <div class="pt-4 col-12">
                 <Title :title="'Backpack'" />
                 <ul class="pt-2 list-group">

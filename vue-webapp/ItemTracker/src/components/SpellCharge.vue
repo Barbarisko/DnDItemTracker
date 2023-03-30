@@ -3,6 +3,26 @@ export default {
     props: {
         title: String,
         charges: Array
+    },
+    methods: {
+        onCheckBoxClick(event) {
+
+            this.charges[event.target.id] = event.target.checked;
+        },
+        useOneOf(event) {
+            var index = this.charges.findIndex(el => !el);
+            if (index === undefined) {
+                return;
+            }
+            this.charges[index] = true;
+        },
+        restoreOneOf(event) {
+            var index = this.charges.findLastIndex(el => el);
+            if (index === undefined) {
+                return;
+            }
+            this.charges[index] = false;
+        }
     }
 }
 </script>
@@ -15,17 +35,19 @@ export default {
             </div>
             <div class="col-6 pe-0 d-flex justify-content-end align-items-center">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary btn-sm">Restore</button>
-                    <button type="button" class="btn btn-success btn-sm">Use</button>
+                    <button type="button" class="btn btn-primary btn-sm" @click="restoreOneOf">
+                        Restore
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm" @click="useOneOf">
+                        Use
+                    </button>
                 </div>
             </div>
         </div>
 
         <div class="row p-2 pt-0 form-check-inline">
-            <input v-for="charge in charges" 
-            class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox"
-                id="inlineCheckbox1" value=""
-                :checked="charge">
+            <input v-for="(charge, index) in charges" :key="index" @click="onCheckBoxClick"
+                class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" :id="index" value="" :checked="charge">
         </div>
     </div>
 </template>
