@@ -5,6 +5,7 @@ import SpellCharge from './components/SpellCharge.vue'
 import Consumable from './components/Consumable.vue'
 import Artifacts from './components/Artifacts.vue'
 import BackpackItem from './components/BackpackItem.vue'
+import NewItemForm from './components/NewItemForm.vue'
 
 export default {
     components: {
@@ -13,7 +14,8 @@ export default {
         SpellCharge,
         Consumable,
         Artifacts,
-        BackpackItem
+        BackpackItem,
+        NewItemForm
     },
     data() {
         return {
@@ -115,6 +117,10 @@ export default {
             this.consumables[consumable_id].amount += addition;
         },
 
+        addConsumable(obj) {
+            this.consumables.push(obj)
+        },
+
         onUseArtifactCharge(artifact_id, charge_id, checked) {
             this.artifacts[artifact_id].charges[charge_id] = checked;
         },
@@ -128,14 +134,19 @@ export default {
         },
 
         duplicateBackpackItem(item_id) {
-            var new_item =                 {
-                    name: this.bPItems[item_id].name,
-                    descr: this.bPItems[item_id].descr,
-                    amount: this.bPItems[item_id].amount
-                }
-            
+            var new_item = {
+                name: this.bPItems[item_id].name,
+                descr: this.bPItems[item_id].descr,
+                amount: this.bPItems[item_id].amount
+            }
+
             this.bPItems.push(new_item);
-        }
+        },
+
+        addBackpackItem(obj) {
+            debugger
+            this.bPItems.push(obj)
+        },
     }
 }
 
@@ -173,10 +184,11 @@ export default {
                             @ChangeAmount="(addition) => changeConsumableAmount(index, addition)" />
                     </li>
                     <li class="list-group-item">
-                        <button type="button" class="btn btn-success" style="width: 100%;">
+                        <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal"
+                            data-bs-target="#AddNewConsumable">
                             Add
                         </button>
-
+                        <NewItemForm @NewItem="addConsumable" :form_id="'AddNewConsumable'" />
                     </li>
                 </ul>
             </div>
@@ -189,10 +201,12 @@ export default {
                             @CheckBoxClick="(id, checked) => onUseArtifactCharge(index, id, checked)" />
                     </div>
                     <li class="list-group-item">
-                        <button type="button" class="btn btn-success" style="width: 100%;">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal"
+                            data-bs-target="#AddNewArtifact">
                             Add
                         </button>
-
+                        <NewItemForm :form_id="'AddNewArtifact'" />
                     </li>
 
                 </div>
@@ -220,9 +234,11 @@ export default {
                 <Title :title="'Backpack'" />
                 <ul class="pt-2 list-group">
                     <li class="list-group-item">
-                        <button type="button" class="btn btn-success" style="width: 100%;">
+                        <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal"
+                            data-bs-target="#AddNewBPItem">
                             Add
                         </button>
+                        <NewItemForm @NewItem="addBackpackItem" :form_id="'AddNewBPItem'" />
                     </li>
                     <li v-for="(item, index) in bPItems" class="list-group-item">
                         <BackpackItem :name="item.name" :descr="item.descr" :amount="item.amount"
@@ -232,6 +248,5 @@ export default {
                     </li>
                 </ul>
             </div>
-        </div>
     </div>
-</template>
+</div></template>
