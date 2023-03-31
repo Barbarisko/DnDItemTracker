@@ -101,18 +101,20 @@ export default {
             while (i--)
                 roman = (key[+digits.pop() + (i * 10)] || "") + roman;
             var res = Array(+digits.join("") + 1).join("M") + roman;
-            console.log(res);
             return res;
         },
 
+        //Spells
         onUseSpellCharge(level_id, charge_id, checked) {
             this.spellSlots.levels[level_id][charge_id] = checked;
         },
 
+        //Special Powers
         onUseSPCharge(power_id, charge_id, checked) {
             this.spPowers.powers[power_id].charges[charge_id] = checked;
         },
 
+        //Consumables
         changeConsumableAmount(consumable_id, addition) {
             this.consumables[consumable_id].amount += addition;
         },
@@ -121,10 +123,21 @@ export default {
             this.consumables.push(obj)
         },
 
+        //Artifacts
         onUseArtifactCharge(artifact_id, charge_id, checked) {
             this.artifacts[artifact_id].charges[charge_id] = checked;
         },
 
+        addArtifactItem(obj) {
+            var item = {
+                name: obj.name,
+                descr: obj.descr,
+                charges: Array.apply(null, Array(obj.charges)).map(function () {false})
+            }
+            this.artifacts.push(item)
+        },
+
+        //Backpacks
         changeBackpackItemAmount(item_id, addition) {
             this.bPItems[item_id].amount += addition;
         },
@@ -144,9 +157,8 @@ export default {
         },
 
         addBackpackItem(obj) {
-            debugger
             this.bPItems.push(obj)
-        },
+        }
     }
 }
 
@@ -206,7 +218,7 @@ export default {
                             data-bs-target="#AddNewArtifact">
                             Add
                         </button>
-                        <NewItemForm :form_id="'AddNewArtifact'" />
+                        <NewItemForm :form_id="'AddNewArtifact'" :has_charges="true" @NewItem="addArtifactItem" />
                     </li>
 
                 </div>
@@ -248,5 +260,6 @@ export default {
                     </li>
                 </ul>
             </div>
+        </div>
     </div>
-</div></template>
+</template>

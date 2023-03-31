@@ -6,6 +6,7 @@ export default {
         descr: String,
         amount: Number
     },
+    emits: ["ChangeAmount"],
     methods: {
         use(event) {
             if(this.amount <= 0)

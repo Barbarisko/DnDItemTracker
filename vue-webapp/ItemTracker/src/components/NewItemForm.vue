@@ -2,13 +2,18 @@
 
 export default {
     props: {
-        form_id: String
+        form_id: String,
+        has_charges: {
+            type: Boolean,
+            default: false
+        }
     },
+    emits: ["NewItem"],
     data() {
         return {
             item_name: "",
             item_descr: "",
-            item_amount: 0,
+            item_amount: 1,
 
             invalid_name: false
         }
@@ -22,12 +27,23 @@ export default {
             else
                 this.invalid_name = false
 
-            debugger
             this.$emit('NewItem', {
                 name: this.item_name,
                 descr: this.item_descr,
-                amount: this.item_amount
-            })
+                amount: this.has_charges ? undefined : Number(this.item_amount),
+                charges: this.has_charges ? Number(this.item_amount) : undefined
+            });
+
+            const myModal = document.getElementById(this.form_id)
+            var modal = bootstrap.Modal.getInstance(myModal)
+            modal.hide();
+            this.reset()
+        },
+
+        reset() {
+            this.item_name = "";
+            this.item_descr = "";
+            this.item_amount = 1;
         }
     }
 }
@@ -57,9 +73,17 @@ export default {
                                 id="descriptionTextAria" style="height: 100px"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="typeNumber">Amount</label>
-                            <input :value="item_amount" @input="event => item_amount = event.target.value" min="0"
-                                type="number" id="typeNumber" class="form-control" />
+                            <template v-if="has_charges" >
+                                <label class="form-label" for="typeNumber">Charges</label>
+                                <input :value="item_amount" @input="event => item_amount = event.target.value" min="1"
+                                    type="number" id="typeNumber" class="form-control" />
+                            </template>
+
+                            <template v-else>
+                                <label class="form-label" for="typeNumber">Amount</label>
+                                <input :value="item_amount" @input="event => item_amount = event.target.value" min="0"
+                                    type="number" id="typeNumber" class="form-control" />
+                            </template>
                         </div>
                     </form>
                 </div>

@@ -2,7 +2,8 @@
 export default {
   props: {
     title: String
-  }
+  },
+  emits: ["ItemEdited"]
 }
 
 </script>

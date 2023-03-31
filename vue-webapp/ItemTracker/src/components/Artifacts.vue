@@ -6,6 +6,7 @@ export default {
         descr: String,
         charges: Array
     },
+    emits: ["CheckBoxClick"],
     methods: {
         onCheckBoxClick(event) {
             this.$emit('CheckBoxClick', event.target.id, event.target.checked);
