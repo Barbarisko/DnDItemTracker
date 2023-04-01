@@ -1,4 +1,5 @@
-import os
+from Constants import *
+
 import psycopg2
 
 
@@ -19,14 +20,14 @@ class ConnectionManager(metaclass=ConnectionManagerMeta):
 
     def __init__(self):
         self.conn = psycopg2.connect(database="postgres",
-                                host="192.168.0.114",
+                                host=DB_ADDRESS,
                                 user="postgres",
-                                password="lena_help",
-                                port="5432")
+                                password=DB_PWD,
+                                port=DB_PORT)
     
     def __del__(self):
         self.conn.close()
-        
+
     def __enter__(self):
         return self
  
