@@ -1,17 +1,17 @@
-import Constants
+from Loging import configure_logging
+configure_logging()
 
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 
+from APIHandlers.UserAPI import *
+from APIHandlers.CharacterAPI import *
 
 @app.route("/")
 def index():
-    print("Hi Mom")
-    global counter
-    counter += 1
-    return "Send Boobs" + str(counter)
+    return "Send Boobs"
 
-app.add_url_rule("/", view_func=index)
+# @app.route('/api/item/<int:id>plus_text', methods=['GET', 'POST'])
+# def func_with_id(id):
+#     return { "new_id": id}
 
-
-# app.run()

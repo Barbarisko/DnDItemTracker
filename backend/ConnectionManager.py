@@ -13,9 +13,6 @@ class ConnectionManagerMeta(type):
         return cls._instances[cls]
 
 
-
-
-
 class ConnectionManager(metaclass=ConnectionManagerMeta):
 
     def __init__(self):
