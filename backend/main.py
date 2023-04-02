@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 from APIHandlers.UserAPI import *
 from APIHandlers.CharacterAPI import *
+from APIHandlers.ArtifactAPI import *
 
 @app.route("/")
 def index():
