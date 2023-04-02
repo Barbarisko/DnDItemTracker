@@ -1,8 +1,7 @@
 from Loging import configure_logging
 configure_logging()
 
-from flask import Flask, request
-app = Flask(__name__)
+from application import app
 
 from APIHandlers.UserAPI import *
 from APIHandlers.CharacterAPI import *
@@ -16,3 +15,5 @@ def index():
 # def func_with_id(id):
 #     return { "new_id": id}
 
+# if __name__ == '__main__':
+#     app.run(debug=True)

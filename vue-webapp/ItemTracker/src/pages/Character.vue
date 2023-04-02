@@ -19,6 +19,8 @@ export default {
     },
     data() {
         return {
+            user_id: 1,
+            character_id: 8,
             spellSlots:
             {
                 title: 'Spell Slots',
@@ -132,7 +134,7 @@ export default {
             var item = {
                 name: obj.name,
                 descr: obj.descr,
-                charges: Array.apply(null, Array(obj.charges)).map(function () {false})
+                charges: Array.apply(null, Array(obj.charges)).map(function () { false })
             }
             this.artifacts.push(item)
         },
@@ -159,6 +161,34 @@ export default {
         addBackpackItem(obj) {
             this.bPItems.push(obj)
         }
+    },
+    mounted() {
+        fetch(`http://127.0.0.1:5000/api/artifact/get_all/${this.character_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(response => {
+            // indicates whether the response is successful (status code 200-299) or not
+            if (!response.ok) {
+                throw new Error(`Request failed with status ${reponse.status}`)
+            }
+            return response.json()
+        })
+        .then(data => {
+            data.forEach(element => {
+                this.artifacts.push(
+                    {
+                        name: element["name"],
+                        descr: element["descr"],
+                        charges: Array.apply(0, Array(element["charges"])).map(function (x, i) { return i < element["used_charges"]; })
+                    }
+                )
+            });
+        })
+        .catch(error => console.log(error))
+
     }
 }
 
@@ -260,5 +290,5 @@ export default {
                 </ul>
             </div>
         </div>
-    </div> 
+    </div>
 </template>

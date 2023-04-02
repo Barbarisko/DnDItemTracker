@@ -1,5 +1,5 @@
-from flask import Flask, request, abort
-app = Flask(__name__)
+from flask import request, abort
+from application import app
 
 import APIHandlers.ExeptionHandler as ExeptionHandler 
 from ActiveRecords.Character import Character
