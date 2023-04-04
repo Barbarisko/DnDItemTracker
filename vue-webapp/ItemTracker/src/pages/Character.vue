@@ -1,11 +1,18 @@
 <script>
-import Title from '../components/Title.vue'
-import TitleWithEdit from '../components/TitleWithEdit.vue'
-import SpellCharge from '../components/SpellCharge.vue'
-import Consumable from '../components/Consumable.vue'
-import Artifacts from '../components/Artifacts.vue'
-import BackpackItem from '../components/BackpackItem.vue'
-import NewItemForm from '../components/NewItemForm.vue'
+import Title from '@/components/Title.vue'
+import TitleWithEdit from '@/components/TitleWithEdit.vue'
+import SpellCharge from '@/components/SpellCharge.vue'
+import Consumable from '@/components/Consumable.vue'
+import Artifacts from '@/components/Artifacts.vue'
+import BackpackItem from '@/components/BackpackItem.vue'
+import NewItemForm from '@/components/NewItemForm.vue'
+import artifact_api from '@/apis/artifact_api'
+import backpack_api from '@/apis/backpack_api'
+import character_api from '@/apis/character_api'
+import consumable_api from '@/apis/consumable_api'
+import sp_api from '@/apis/sp_api'
+import spell_api from '@/apis/spell_api'
+import user_api from '@/apis/user_api'
 
 export default {
     components: {
@@ -20,66 +27,66 @@ export default {
     data() {
         return {
             user_id: 1,
-            character_id: 8,
+            character_id: 1,
             spellSlots:
             {
                 title: 'Spell Slots',
                 levels: [
-                    [true, true, false],
-                    [true, true, false],
-                    [true, true, false],
-                    [true, true, false]
+                    // {
+                    //     level: 1,
+                    //     charges: [true, true, false]
+                    // }
                 ]
             },
             spPowers:
             {
                 title: 'Special Powers',
                 powers: [
-                    {
-                        name: "Monc Power",
-                        charges: [true, false, true, false]
-                    },
-                    {
-                        name: "Other Power",
-                        charges: [true, false, true, false]
-                    }
+                    // {
+                    //     name: "Monc Power",
+                    //     charges: [true, false, true, false]
+                    // },
+                    // {
+                    //     name: "Other Power",
+                    //     charges: [true, false, true, false]
+                    // }
                 ]
             },
             consumables: [
-                {
-                    name: "Food",
-                    descr: "Eat eat, yammy!",
-                    amount: 10
-                },
-                {
-                    name: "Potion",
-                    descr: "Heals",
-                    amount: 10
-                }
+                // {
+                //     name: "Food",
+                //     descr: "Eat eat, yammy!",
+                //     amount: 10
+                // },
+                // {
+                //     name: "Potion",
+                //     descr: "Heals",
+                //     amount: 10
+                // }
             ],
             artifacts: [
-                {
-                    name: "Sword",
-                    descr: "Cuts in half",
-                    charges: [true, false, true, false]
-                },
-                {
-                    name: "Stick",
-                    descr: "Bonk!",
-                    charges: [true, false, true, false]
-                }
+                // {
+                //     name: "Sword",
+                //     descr: "Cuts in half",
+                //     charges: [true, false, true, false]
+                // },
+                // {
+                //     name: "Stick",
+                //     descr: "Bonk!",
+                //     charges: [true, false, true, false]
+                // }
             ],
             bPItems: [
-                {
-                    name: "Rope",
-                    descr: "30 ft long, like my dick",
-                    amount: 10
-                },
-                {
-                    name: "Condoms",
-                    descr: "For my ropes",
-                    amount: 10
-                }
+                // {
+                //     name: "Rope",
+                //     descr: "30 ft long, like my dick",
+                //     amount: 10
+                // },
+                // {
+                //     name: "Condoms",
+                //     descr: "For my ropes",
+                //     amount: 10
+                // }
             ]
         }
     },
@@ -163,32 +170,11 @@ export default {
         }
     },
     mounted() {
-        fetch(`http://127.0.0.1:5000/api/artifact/get_all/${this.character_id}`, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8'
-            }
-        })
-        .then(response => {
-            // indicates whether the response is successful (status code 200-299) or not
-            if (!response.ok) {
-                throw new Error(`Request failed with status ${reponse.status}`)
-            }
-            return response.json()
-        })
-        .then(data => {
-            data.forEach(element => {
-                this.artifacts.push(
-                    {
-                        name: element["name"],
-                        descr: element["descr"],
-                        charges: Array.apply(0, Array(element["charges"])).map(function (x, i) { return i < element["used_charges"]; })
-                    }
-                )
-            });
-        })
-        .catch(error => console.log(error))
-
+        spell_api.get_all_spell_levels(this.character_id).then(data => this.spellSlots.levels = data)
+        sp_api.get_all_special_powers(this.character_id).then(data => this.spPowers.powers = data)
+        consumable_api.get_all_consumables(this.character_id).then(data => this.consumables = data)
+        artifact_api.get_all_artifacts(this.character_id).then(data => this.artifacts = data)
+        backpack_api.get_all_items(this.character_id).then(data => this.bPItems = data)
     }
 }
 
@@ -201,8 +187,8 @@ export default {
             <div class="pt-4 col-sm-12 col-md-6">
                 <TitleWithEdit :title="spellSlots.title" />
                 <ul class="pt-2 list-group">
-                    <li class="list-group-item" v-for="(charges, index) in spellSlots.levels" :key="index">
-                        <SpellCharge :title="intToRoman(index + 1) + ' Level'" :charges="charges"
+                    <li class="list-group-item" v-for="(level, index) in spellSlots.levels" :key="index">
+                        <SpellCharge :title="intToRoman(level.level) + ' Level'" :charges="level.charges"
                             @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)" />
                     </li>
                 </ul>

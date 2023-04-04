@@ -6,6 +6,10 @@ from application import app
 from APIHandlers.UserAPI import *
 from APIHandlers.CharacterAPI import *
 from APIHandlers.ArtifactAPI import *
+from APIHandlers.SpellLevelAPI import *
+from APIHandlers.SpecialPowerAPI import *
+from APIHandlers.ConsumablesAPI import *
+from APIHandlers.ItemsAPI import *
 
 @app.route("/")
 def index():
