@@ -1,74 +1,60 @@
 <template>
-    <div class="container border rounded p-3 mt-2 mb-4 text-center">
+    <div class="row align-items-center mt-5">
+        <div class="container">
 
-        <div class="row align-items-start">
-            <div class="col-sm-12">
+            <div class="row justify-content-center">
+                <div class="col-sm-10 col-md-8 col-lg-6 btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="btnradio1">
+                        <h4>Login</h4>
+                    </label>
 
-                <h1>Login</h1>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">@</span>
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Username">
-                        <label for="floatingInputGroup1">Username</label>
-                    </div>
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnradio2">
+                        <h4>Register</h4>
+                    </label>
                 </div>
-
-                <div class="input-group mb-3">
-                    <span class="input-group-text">
-                        <h3> *</h3>
-                    </span>
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Password">
-                        <label for="floatingInputGroup1">Password</label>
-                    </div>
-                </div>
-
             </div>
-        </div>
-        <button type="button" class="btn btn-light">Register</button>
-
-    </div>
-
-    <div class="container border rounded p-3 mt-2 mb-4 text-center">
-        <div class="row align-items-start">
-            <div class="col-sm-12">
-
-                <div class="row">
-                    <h1>Register</h1>
+            <div class="row justify-content-center">
+                <div class="col-sm-10 col-md-8 col-lg-6 pt-4">
                     <div class="input-group mb-3">
-                        <span class="input-group-text">@</span>
+                        <span class="input-group-text" style="width: 42px;">@</span>
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Username">
+                            <input type="text" class="form-control" id="username" placeholder="Username">
                             <label for="floatingInputGroup1">Username</label>
                         </div>
                     </div>
-                </div>
 
-                <div class="input-group mb-3">
-                    <span class="input-group-text">
-                        <h3> *</h3>
-                    </span>
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Password">
-                        <label for="floatingInputGroup1">Password</label>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-6 col-sm-12">
-                            <button type="button" class="btn btn-light">Login</button>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text " style="width: 42px;">
+                            <h2> *  </h2>
+                        </span>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="password" placeholder="Password">
+                            <label for="floatingInputGroup1">Password</label>
                         </div>
-                        <div class="col-6 col-sm-12">
-                            <div class="form-check form-switch form-check-reverse">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse">
-                                <label class="form-check-label" for="flexSwitchCheckReverse">CHeck this if you're not
-                                    gay</label>
-                            </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"  style="width: 42px;">
+                            <h2> *</h2>
+                        </span>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="password" placeholder="Password">
+                            <label for="floatingInputGroup1">Password</label>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row justify-content-center">
+                <div class="col-4 mt-4 position-relative">
+                    <button type="button" class="btn btn-primary position-absolute start-50 translate-middle" style="width: 200px;">
+                        <h5>Go!</h5>
+                    </button>
+                </div>
+            </div>      
         </div>
     </div>
 </template>
+
+<style></style>
