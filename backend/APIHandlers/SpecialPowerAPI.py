@@ -38,12 +38,12 @@ def special_power_create():
 #         return { "id": art.id, "name": art.name, "charges": art.charges, "used_charges": art.used_charges, "descr": art.descr }
 #     return special_power_get_impl(id)
 
-# @app.route('/api/special_power/<int:id>/set', methods=['POST'])
-# def special_power_set(id):
-#     @ExeptionHandler.abort_on_failure()
-#     def special_power_set_impl(id):
-#         api_log("Set request for character " + str(id))
-#         edited_art = Artifact(request.json["name"], request.json["charges"], request.json["used_charges"], request.json["descr"], id)
-#         edited_art.update()
-#         return { }
-#     return special_power_set_impl(id)
+@app.route('/api/special_powers/<int:id>/set', methods=['POST'])
+def special_power_set(id):
+    @ExeptionHandler.abort_on_failure()
+    def special_power_set_impl(id):
+        api_log("Set request for special power " + str(id))
+        edited_art = SpecialPower(request.json["name"], request.json["charges"], request.json["used_charges"], id)
+        edited_art.update()
+        return { }
+    return special_power_set_impl(id)

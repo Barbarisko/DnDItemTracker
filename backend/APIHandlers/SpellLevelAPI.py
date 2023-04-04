@@ -38,12 +38,12 @@ def spell_level_create():
 #         return { "id": art.id, "name": art.name, "charges": art.charges, "used_charges": art.used_charges, "descr": art.descr }
 #     return spell_level_get_impl(id)
 
-# @app.route('/api/spell_level/<int:id>/set', methods=['POST'])
-# def spell_level_set(id):
-#     @ExeptionHandler.abort_on_failure()
-#     def spell_level_set_impl(id):
-#         api_log("Set request for character " + str(id))
-#         edited_art = Artifact(request.json["name"], request.json["charges"], request.json["used_charges"], request.json["descr"], id)
-#         edited_art.update()
-#         return { }
-#     return spell_level_set_impl(id)
+@app.route('/api/spell_levels/<int:id>/set', methods=['POST'])
+def spell_level_set(id):
+    @ExeptionHandler.abort_on_failure()
+    def spell_level_set_impl(id):
+        api_log("Set request for spell level " + str(id))
+        edited_art = SpellLevel(request.json["level"], request.json["charges"], request.json["used_charges"], id)
+        edited_art.update()
+        return { }
+    return spell_level_set_impl(id)

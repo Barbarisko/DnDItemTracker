@@ -24,12 +24,39 @@ var spell_api = {
                         charges: Array.apply(0, Array(element["charges"])).map(function (x, i) { return i < element["used_charges"]; })
                     }
                 )
+                spell_levels.sort((first, second) => first.level - second.level)
             });
         })
         .catch(error => console.log(error))
         return spell_levels;
-    }
+    },
 
+    async set(level_id, level, charges, used_charges) {
+        return await fetch(`http://127.0.0.1:5000/api/spell_levels/${level_id}/set`, {
+            method: 'POST',
+            body: JSON.stringify(
+                {
+                    level: level,
+                    charges: charges,
+                    used_charges: used_charges
+                }
+            ),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(response => {
+            // indicates whether the response is successful (status code 200-299) or not
+            if (!response.ok) {
+                throw new Error(`Request failed with status ${reponse.status}`)
+            }
+            return true
+        })
+        .catch(error => {
+            console.log(error)
+            return false
+        })
+    }
   }
   
   export default spell_api

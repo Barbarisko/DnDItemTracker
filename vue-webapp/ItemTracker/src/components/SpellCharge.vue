@@ -7,7 +7,7 @@ export default {
     emits: ["CheckBoxClick"],
     methods: {
         onCheckBoxClick(event) {
-            this.$emit('CheckBoxClick', event.target.id, event.target.checked);
+            this.$emit('CheckBoxClick', Number(event.target.id), event.target.checked);
         },
         useOneOf(event) {
             var index = this.charges.findIndex(el => !el);
@@ -46,7 +46,7 @@ export default {
         </div>
 
         <div class="row p-2 pt-0 form-check-inline">
-            <input v-for="(charge, index) in charges" :key="index" @click="onCheckBoxClick"
+            <input v-for="(charge, index) in charges" @change="onCheckBoxClick"
                 class="ms-2 mt-2 form-check-input big-checkbox" type="checkbox" :id="index" value="" :checked="charge">
         </div>
     </div>

@@ -6,6 +6,9 @@ import Consumable from '@/components/Consumable.vue'
 import Artifacts from '@/components/Artifacts.vue'
 import BackpackItem from '@/components/BackpackItem.vue'
 import NewItemForm from '@/components/NewItemForm.vue'
+
+import utils from '@/utils'
+
 import artifact_api from '@/apis/artifact_api'
 import backpack_api from '@/apis/backpack_api'
 import character_api from '@/apis/character_api'
@@ -113,14 +116,32 @@ export default {
             return res;
         },
 
+
         //Spells
-        onUseSpellCharge(level_id, charge_id, checked) {
-            this.spellSlots.levels[level_id][charge_id] = checked;
+        async onUseSpellCharge(level_id, charge_id, checked) {
+            this.spellSlots.levels[level_id].charges[charge_id] = checked;
+            var level = this.spellSlots.levels[level_id];
+            var res = await spell_api.set(
+                level.id, 
+                level.level, 
+                level.charges.length, 
+                utils.calculate_used_charges(level.charges));
+
+            this.spellSlots.levels[level_id].charges[charge_id] = res ? checked : !checked;
         },
 
         //Special Powers
-        onUseSPCharge(power_id, charge_id, checked) {
+        async onUseSPCharge(power_id, charge_id, checked) {
             this.spPowers.powers[power_id].charges[charge_id] = checked;
+
+            var power = this.spPowers.powers[power_id];
+            var res = await sp_api.set(
+                power.id, 
+                power.name, 
+                power.charges.length, 
+                utils.calculate_used_charges(power.charges));
+
+            this.spPowers.powers[power_id].charges[charge_id] = res ? checked : !checked;
         },
 
         //Consumables
@@ -188,7 +209,7 @@ export default {
                 <TitleWithEdit :title="spellSlots.title" />
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(level, index) in spellSlots.levels" :key="index">
-                        <SpellCharge :title="intToRoman(level.level) + ' Level'" :charges="level.charges"
+                        <SpellCharge :title="intToRoman(level.level) + ' Level' + JSON.stringify(level.charges)" :charges="level.charges"
                             @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)" />
                     </li>
                 </ul>
