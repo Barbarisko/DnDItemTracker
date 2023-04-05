@@ -5,7 +5,7 @@ import Character from './pages/Character.vue'
 import Home from './pages/Home.vue'
 
 const routes = {
-    // '/': Login,
+    '/': Login,
     '/home': Home,
     '/login': Login,
     '/character': Character,
@@ -55,10 +55,8 @@ export default {
                     <span class="navbar-text flex-grow-1">
                         Username and character name
                     </span>
-                    <!-- <a class="nav-link " href="#/login">Log In</a>
-                            <a class="nav-link" href="#/login">Log Out</a> -->
-                    <button class="btn btn-outline-success ms-3" type="submit">Log In</button>
-                    <button class="btn btn-outline-danger ms-3" type="submit">Log Out</button>
+                    <button class="btn btn-outline-success ms-3" style="width: 90px;" type="submit">Log In</button>
+                    <button class="btn btn-outline-danger ms-3" style="width: 90px;" type="submit">Log Out</button>
                 </div>
             </div>
         </div>
