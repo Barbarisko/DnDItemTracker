@@ -122,9 +122,9 @@ export default {
             this.spellSlots.levels[level_id].charges[charge_id] = checked;
             var level = this.spellSlots.levels[level_id];
             var res = await spell_api.set(
-                level.id, 
-                level.level, 
-                level.charges.length, 
+                level.id,
+                level.level,
+                level.charges.length,
                 utils.calculate_used_charges(level.charges));
 
             this.spellSlots.levels[level_id].charges[charge_id] = res ? checked : !checked;
@@ -136,9 +136,9 @@ export default {
 
             var power = this.spPowers.powers[power_id];
             var res = await sp_api.set(
-                power.id, 
-                power.name, 
-                power.charges.length, 
+                power.id,
+                power.name,
+                power.charges.length,
                 utils.calculate_used_charges(power.charges));
 
             this.spPowers.powers[power_id].charges[charge_id] = res ? checked : !checked;
@@ -209,7 +209,8 @@ export default {
                 <TitleWithEdit :title="spellSlots.title" />
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(level, index) in spellSlots.levels" :key="index">
-                        <SpellCharge :title="intToRoman(level.level) + ' Level' + JSON.stringify(level.charges)" :charges="level.charges"
+                        <SpellCharge :title="intToRoman(level.level) + ' Level' + JSON.stringify(level.charges)"
+                            :charges="level.charges"
                             @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)" />
                     </li>
                 </ul>

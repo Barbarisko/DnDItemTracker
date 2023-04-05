@@ -2,24 +2,41 @@
 import user_api from '@/apis/user_api'
 
 export default {
+
     data() {
         return {
-            show_repeat_field: false
+            registerMode: false,
+            username: "",
+            password: ""
         }
-    },
-    mounted() {
-
     },
     methods: {
         onChangeMode(event) {
-            console.log("Hi")
-            if (event.target.id == "modeLogin")
-            {
-                this.show_repeat_field = false;
+            if (event.target.id == "modeLogin") {
+                this.registerMode = false;
             }
-            else
-            {
-                this.show_repeat_field = true;
+            else {
+                this.registerMode = true;
+            }
+        },
+        onGo() {
+            if (this.username == "" || this.password == "")
+                return;
+
+            if (this.registerMode) {
+
+            }
+            else {
+            }
+
+            var status = true;
+            if (status) {
+                this.$root.user.logged_in = true;
+                this.$root.user.name = this.username;
+                window.location.hash = "#/home"
+            }
+            else {
+                return;
             }
         }
     }
@@ -32,12 +49,14 @@ export default {
             <div class="row justify-content-center">
                 <div class="col-sm-10 col-md-8 col-lg-6 btn-group" role="group"
                     aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="btnradio" id="modeLogin" autocomplete="off" @change="onChangeMode" checked>
+                    <input type="radio" class="btn-check" name="btnradio" id="modeLogin" autocomplete="off"
+                        @change="onChangeMode" checked>
                     <label class="btn btn-outline-primary" for="modeLogin">
                         <h4>Login</h4>
                     </label>
 
-                    <input type="radio" class="btn-check" name="btnradio" id="modeRegister" autocomplete="off" @change="onChangeMode">
+                    <input type="radio" class="btn-check" name="btnradio" id="modeRegister" autocomplete="off"
+                        @change="onChangeMode">
                     <label class="btn btn-outline-primary" for="modeRegister">
                         <h4>Register</h4>
                     </label>
@@ -49,7 +68,8 @@ export default {
                     <div class="input-group mb-3">
                         <span class="input-group-text">@</span>
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Username">
+                            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Username"
+                                v-model="username">
                             <label for="floatingInputGroup1">Username</label>
                         </div>
                     </div>
@@ -57,15 +77,16 @@ export default {
                     <div class="input-group mb-3">
                         <span class="input-group-text" style="width: 42px;">*</span>
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Username">
+                            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Password"
+                                v-model="password">
                             <label for="floatingInputGroup1">Password</label>
                         </div>
                     </div>
 
-                    <div v-if="show_repeat_field" class="input-group mb-3">
+                    <div v-if="registerMode" class="input-group mb-3">
                         <span class="input-group-text" style="width: 42px;">*</span>
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Username">
+                            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Password">
                             <label for="floatingInputGroup1">Repeate Password</label>
                         </div>
                     </div>
@@ -74,9 +95,9 @@ export default {
             </div>
             <div class="row justify-content-center">
                 <div class="col-4 mt-4 position-relative">
-                    <button type="button" class="btn btn-primary position-absolute start-50 translate-middle"
-                        style="width: 200px;">
-                        <h5>Go!</h5>
+                    <button type="button" class="btn btn-primary position-absolute start-50 translate-middle fs-4"
+                        style="width: 200px;" @click="onGo">
+                        Go!
                     </button>
                 </div>
             </div>
