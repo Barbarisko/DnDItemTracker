@@ -1,5 +1,5 @@
 <script>
-import Login from './pages/login/Login.vue'
+import Login from './pages/Login.vue'
 import About from './pages/About.vue'
 import Character from './pages/Character.vue'
 import Home from './pages/Home.vue'

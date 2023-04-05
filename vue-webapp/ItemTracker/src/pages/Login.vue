@@ -27,32 +27,40 @@
 
                     <div class="input-group mb-3">
                         <span class="input-group-text " style="width: 42px;">
-                            <h2> *  </h2>
+                            <h2> * </h2>
                         </span>
                         <div class="form-floating">
                             <input type="text" class="form-control" id="password" placeholder="Password">
                             <label for="floatingInputGroup1">Password</label>
+                        </div>
+                    </div> 
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">*</span>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Username">
+                            <label for="floatingInputGroup1">Username</label>
                         </div>
                     </div>
 
                     <div class="input-group mb-3">
-                        <span class="input-group-text"  style="width: 42px;">
-                            <h2> *</h2>
-                        </span>
+                        <span class="input-group-text">*</span>
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="password" placeholder="Password">
-                            <label for="floatingInputGroup1">Password</label>
+                            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Username">
+                            <label for="floatingInputGroup1">Username</label>
                         </div>
                     </div>
+
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-4 mt-4 position-relative">
-                    <button type="button" class="btn btn-primary position-absolute start-50 translate-middle" style="width: 200px;">
+                    <button type="button" class="btn btn-primary position-absolute start-50 translate-middle"
+                        style="width: 200px;">
                         <h5>Go!</h5>
                     </button>
                 </div>
-            </div>      
+            </div>
         </div>
     </div>
 </template>
