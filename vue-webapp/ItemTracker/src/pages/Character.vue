@@ -193,20 +193,23 @@ export default {
                 art.id,
                 art.name,
                 art.charges.length,
-                art.descr,
-                utils.calculate_used_charges(art.charges));
+                utils.calculate_used_charges(art.charges),
+                art.descr
+            );
 
             this.artifacts[artifact_id].charges[charge_id] = res ? checked : !checked;
         },
 
         async restoreAllArtifactCharges(artifact_id) {
+            debugger
             var art = this.artifacts[artifact_id];
             var res = await artifact_api.set(
                 art.id,
                 art.name,
-                art.descr,
                 art.charges.length,
-                0);
+                0,
+                art.descr
+            );
 
             if (res) {
                 for (var i = 0; i < art.charges.length; i++) {

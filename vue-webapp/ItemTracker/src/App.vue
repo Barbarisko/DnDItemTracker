@@ -26,12 +26,12 @@ export default {
     },
     computed: {
         currentView() {
-            if (!this.user.logged_in) {
-                if (this.currentPath == '#/about') {
-                    return About;
-                }
-                return Login;
-            }
+            // if (!this.user.logged_in) {
+            //     if (this.currentPath == '#/about') {
+            //         return About;
+            //     }
+            //     return Login;
+            // }
             return routes[this.currentPath.slice(1) || '/'] || Login;
         },
         user_character_title() {

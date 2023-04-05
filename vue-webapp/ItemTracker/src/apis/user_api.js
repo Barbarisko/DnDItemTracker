@@ -1,7 +1,7 @@
 var user_api = {
 
   async create(username, password_hash) {
-    result = {
+    var result = {
       status: false,
       new_id: -1
     }
@@ -34,7 +34,7 @@ var user_api = {
   },
 
   async login(username, password_hash) {
-    result = {
+    var result = {
       status: false,
       new_id: -1
     }
