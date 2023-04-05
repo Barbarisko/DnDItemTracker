@@ -1,7 +1,7 @@
 var artifact_api = {
     async get_all_artifacts(character_id) { 
         var artifacts = []
-        await fetch(`http://127.0.0.1:5000/api/artifact/get_all/${character_id}`, {
+        await fetch(`http://127.0.0.1:5000/api/artifacts/get_all/${character_id}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
@@ -28,6 +28,34 @@ var artifact_api = {
         })
         .catch(error => console.log(error))
         return artifacts;
+    },
+
+    async set(artifact_id, name, charges, used_charges, descr) {
+        return await fetch(`http://127.0.0.1:5000/api/artifacts/${artifact_id}/set`, {
+            method: 'POST',
+            body: JSON.stringify(
+                {
+                    name: name,
+                    charges: charges,
+                    used_charges: used_charges,
+                    descr: descr
+                }
+            ),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(response => {
+            // indicates whether the response is successful (status code 200-299) or not
+            if (!response.ok) {
+                throw new Error(`Request failed with status ${reponse.status}`)
+            }
+            return true
+        })
+        .catch(error => {
+            console.log(error)
+            return false
+        })
     }
   }
   

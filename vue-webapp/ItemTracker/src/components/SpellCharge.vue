@@ -4,7 +4,7 @@ export default {
         title: String,
         charges: Array
     },
-    emits: ["CheckBoxClick"],
+    emits: ["CheckBoxClick", "RestoreAll"],
     methods: {
         onCheckBoxClick(event) {
             this.$emit('CheckBoxClick', Number(event.target.id), event.target.checked);
@@ -22,6 +22,9 @@ export default {
                 return;
             }
             this.$emit('CheckBoxClick', index, false);
+        },
+        restoreAll(event) {
+            this.$emit('restoreAll');
         }
     }
 }
@@ -35,11 +38,14 @@ export default {
             </div>
             <div class="col-6 pe-0 d-flex justify-content-end align-items-center">
                 <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-warning btn-sm" @click="useOneOf">
+                        Use
+                    </button>
                     <button type="button" class="btn btn-primary btn-sm" @click="restoreOneOf">
                         Restore
                     </button>
-                    <button type="button" class="btn btn-success btn-sm" @click="useOneOf">
-                        Use
+                    <button type="button" class="btn btn-success btn-sm" @click="restoreAll">
+                        Restore All
                     </button>
                 </div>
             </div>

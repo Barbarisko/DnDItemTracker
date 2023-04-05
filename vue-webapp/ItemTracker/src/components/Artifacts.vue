@@ -6,10 +6,13 @@ export default {
         descr: String,
         charges: Array
     },
-    emits: ["CheckBoxClick"],
+    emits: ["CheckBoxClick", "restoreAll"],
     methods: {
         onCheckBoxClick(event) {
             this.$emit('CheckBoxClick', event.target.id, event.target.checked);
+        },
+        restoreAll(event) {
+            this.$emit('restoreAll');
         }
     }
 }
@@ -21,7 +24,7 @@ export default {
             <h5 class="p-1"> {{ name }} </h5>
         </div>
         <div class="col-4 d-flex justify-content-end">
-            <button type="button" class="btn btn-outline-danger btn-sm align-self-center">
+            <button type="button" class="btn btn-outline-danger btn-sm align-self-center" @click="restoreAll">
                 Reset All
             </button>
         </div>

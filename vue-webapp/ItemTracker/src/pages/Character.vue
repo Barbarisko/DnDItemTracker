@@ -122,12 +122,28 @@ export default {
             this.spellSlots.levels[level_id].charges[charge_id] = checked;
             var level = this.spellSlots.levels[level_id];
             var res = await spell_api.set(
-                level.id, 
-                level.level, 
-                level.charges.length, 
+                level.id,
+                level.level,
+                level.charges.length,
                 utils.calculate_used_charges(level.charges));
 
             this.spellSlots.levels[level_id].charges[charge_id] = res ? checked : !checked;
+        },
+
+        async restoreAllSpellCharges(level_id) {
+
+            var level = this.spellSlots.levels[level_id];
+            var res = await spell_api.set(
+                level.id,
+                level.level,
+                level.charges.length,
+                0);
+
+            if (res) {
+                for (var i = 0; i < level.charges.length; i++) {
+                    level.charges[i] = false;
+                }
+            }
         },
 
         //Special Powers
@@ -136,12 +152,27 @@ export default {
 
             var power = this.spPowers.powers[power_id];
             var res = await sp_api.set(
-                power.id, 
-                power.name, 
-                power.charges.length, 
+                power.id,
+                power.name,
+                power.charges.length,
                 utils.calculate_used_charges(power.charges));
 
             this.spPowers.powers[power_id].charges[charge_id] = res ? checked : !checked;
+        },
+        async restoreAllSPs(power_id) {
+
+            var power = this.spPowers.powers[power_id];
+            var res = await sp_api.set(
+                power.id,
+                power.name,
+                power.charges.length,
+                0);
+
+            if (res) {
+                for (var i = 0; i < power.charges.length; i++) {
+                    power.charges[i] = false;
+                }
+            }
         },
 
         //Consumables
@@ -154,8 +185,34 @@ export default {
         },
 
         //Artifacts
-        onUseArtifactCharge(artifact_id, charge_id, checked) {
+        async onUseArtifactCharge(artifact_id, charge_id, checked) {
             this.artifacts[artifact_id].charges[charge_id] = checked;
+
+            var art = this.artifacts[artifact_id];
+            var res = await artifact_api.set(
+                art.id,
+                art.name,
+                art.charges.length,
+                art.descr,
+                utils.calculate_used_charges(art.charges));
+
+            this.artifacts[artifact_id].charges[charge_id] = res ? checked : !checked;
+        },
+
+        async restoreAllArtifactCharges(artifact_id) {
+            var art = this.artifacts[artifact_id];
+            var res = await artifact_api.set(
+                art.id,
+                art.name,
+                art.descr,
+                art.charges.length,
+                0);
+
+            if (res) {
+                for (var i = 0; i < art.charges.length; i++) {
+                    art.charges[i] = false;
+                }
+            }
         },
 
         addArtifactItem(obj) {
@@ -209,8 +266,9 @@ export default {
                 <TitleWithEdit :title="spellSlots.title" />
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(level, index) in spellSlots.levels" :key="index">
-                        <SpellCharge :title="intToRoman(level.level) + ' Level' + JSON.stringify(level.charges)" :charges="level.charges"
-                            @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)" />
+                        <SpellCharge :title="intToRoman(level.level) + ' Level' + JSON.stringify(level.charges)"
+                            :charges="level.charges" @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)"
+                            @restoreAll="() => restoreAllSpellCharges(index)" />
                     </li>
                 </ul>
             </div>
@@ -220,7 +278,8 @@ export default {
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(power, index) in spPowers.powers">
                         <SpellCharge :title="power.name" :charges="power.charges" :key="index"
-                            @CheckBoxClick="(id, checked) => onUseSPCharge(index, id, checked)" />
+                            @CheckBoxClick="(id, checked) => onUseSPCharge(index, id, checked)"
+                            @restoreAll="() => restoreAllSPs(index)" />
                     </li>
                 </ul>
             </div>
@@ -247,7 +306,8 @@ export default {
                 <div class="pt-2 list-group">
                     <div v-for="(artif, index) in artifacts" class="list-group-item">
                         <Artifacts :name="artif.name" :descr="artif.descr" :charges="artif.charges"
-                            @CheckBoxClick="(id, checked) => onUseArtifactCharge(index, id, checked)" />
+                            @CheckBoxClick="(id, checked) => onUseArtifactCharge(index, id, checked)"
+                            @restoreAll="() => restoreAllArtifactCharges(index)" />
                     </div>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal"

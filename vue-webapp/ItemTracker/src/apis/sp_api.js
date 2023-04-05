@@ -24,7 +24,7 @@ var sp_api = {
                         charges: Array.apply(0, Array(element["charges"])).map(function (x, i) { return i < element["used_charges"]; })
                     }
                 )
-                spell_levels.sort((first, second) => first.id - second.id)
+                special_power.sort((first, second) => first.id - second.id)
             });
         })
         .catch(error => console.log(error))

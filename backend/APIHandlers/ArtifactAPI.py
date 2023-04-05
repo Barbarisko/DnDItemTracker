@@ -8,7 +8,7 @@ from Loging import *
 from Constants import *
 
 
-@app.route('/api/artifact/get_all/<int:character_id>', methods=['GET'])
+@app.route('/api/artifacts/get_all/<int:character_id>', methods=['GET'])
 def artifact_get_all(character_id):
     @ExeptionHandler.abort_on_failure()
     def artifact_get_all_impl(character_id):
@@ -19,7 +19,7 @@ def artifact_get_all(character_id):
         return res_json_arr
     return artifact_get_all_impl(character_id)
 
-@app.route('/api/artifact/add', methods=['POST'])
+@app.route('/api/artifacts/add', methods=['POST'])
 def artifact_create():
     @ExeptionHandler.abort_on_failure()
     def artifact_create_impl():
@@ -29,7 +29,7 @@ def artifact_create():
         return { "id": new_id }
     return artifact_create_impl()
 
-@app.route('/api/artifact/<int:id>/get', methods=['GET'])
+@app.route('/api/artifacts/<int:id>/get', methods=['GET'])
 def artifact_get(id):
     @ExeptionHandler.abort_on_failure()
     def artifact_get_impl(id):
@@ -38,7 +38,7 @@ def artifact_get(id):
         return { "id": art.id, "name": art.name, "charges": art.charges, "used_charges": art.used_charges, "descr": art.descr }
     return artifact_get_impl(id)
 
-@app.route('/api/artifact/<int:id>/set', methods=['POST'])
+@app.route('/api/artifacts/<int:id>/set', methods=['POST'])
 def artifact_set(id):
     @ExeptionHandler.abort_on_failure()
     def artifact_set_impl(id):
