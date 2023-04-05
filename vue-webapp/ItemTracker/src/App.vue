@@ -15,18 +15,49 @@ const routes = {
 export default {
     data() {
         return {
-            currentPath: window.location.hash
+            currentPath: window.location.hash,
+            user: {
+                id: -1,
+                logged_in: false,
+                name: "",
+                selected_character: ""
+            }
         }
     },
     computed: {
         currentView() {
-            return routes[this.currentPath.slice(1) || '/'] || Login
+            if (!this.user.logged_in) {
+                if (this.currentPath == '#/about') {
+                    return About;
+                }
+                return Login;
+            }
+            return routes[this.currentPath.slice(1) || '/'] || Login;
+        },
+        user_character_title() {
+            if (!this.user.logged_in)
+                return "";
+
+            if (this.user.selected_character == "")
+                return this.user.name;
+
+            return this.user.name + " and hero: " + this.user.selected_character;
         }
     },
     mounted() {
         window.addEventListener('hashchange', () => {
             this.currentPath = window.location.hash
         })
+    },
+    methods: {
+        logIn() {
+            this.user = {
+                id: -1,
+                logged_in: false,
+                name: "",
+                selected_character: ""
+            }
+        }
     }
 }
 </script>
@@ -48,20 +79,23 @@ export default {
                         <a class="nav-link disabled" href="#/dm-info">DM Info</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled">Link</a>
+                        <a class="nav-link disabled" href="#/dm-info">Donate</a>
                     </li>
                 </ul>
                 <div class="d-flex">
                     <span class="navbar-text flex-grow-1">
-                        Username and character name
+                        {{ user_character_title }}
                     </span>
-                    <button class="btn btn-outline-success ms-3" style="width: 90px;" type="submit">Log In</button>
-                    <button class="btn btn-outline-danger ms-3" style="width: 90px;" type="submit">Log Out</button>
+
+                    <a href="#/login" v-if="!user.logged_in" class="btn btn-outline-success ms-3" tabindex="-1"
+                        role="button" @click="logIn" style="width: 90px;">Log In</a>
+                    <a href="#/login" v-if="user.logged_in" class="btn btn-outline-danger ms-3" tabindex="-1" role="button"
+                        @click="logIn" style="width: 90px;">Log Out</a>
+
                 </div>
             </div>
         </div>
     </nav>
-
 
     <component :is="currentView" />
 </template>
