@@ -17,6 +17,7 @@ export default {
         return {
             currentPath: window.location.hash,
             user: {
+                id: -1,
                 logged_in: false,
                 name: "",
                 selected_character: ""
@@ -51,13 +52,7 @@ export default {
     methods: {
         logIn() {
             this.user = {
-                logged_in: false,
-                name: "",
-                selected_character: ""
-            }
-        },
-        logOut() {
-            this.user = {
+                id: -1,
                 logged_in: false,
                 name: "",
                 selected_character: ""
@@ -95,7 +90,7 @@ export default {
                     <a href="#/login" v-if="!user.logged_in" class="btn btn-outline-success ms-3" tabindex="-1"
                         role="button" @click="logIn" style="width: 90px;">Log In</a>
                     <a href="#/login" v-if="user.logged_in" class="btn btn-outline-danger ms-3" tabindex="-1" role="button"
-                        @click="logOut" style="width: 90px;">Log Out</a>
+                        @click="logIn" style="width: 90px;">Log Out</a>
 
                 </div>
             </div>

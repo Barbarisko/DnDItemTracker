@@ -19,23 +19,38 @@ export default {
                 this.registerMode = true;
             }
         },
-        onGo() {
+        async onGo() {
             if (this.username == "" || this.password == "")
+            //give some error
                 return;
 
-            if (this.registerMode) {
+            async function sha256(message) {
+                // encode as UTF-8
+                const msgBuffer = new TextEncoder().encode(message);                    
 
-            }
-            else {
-            }
+                // hash the message
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
 
-            var status = true;
-            if (status) {
+                // convert ArrayBuffer to Array
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+                // convert bytes to hex string                  
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                return hashHex;
+            }
+            var pwd_hash = await sha256(this.password)
+
+            var res = await (this.registerMode ? user_api.create(this.username, pwd_hash) : user_api.login(this.usernamem, pwd_hash));
+
+            if (res.status) {
+                this.$root.user.id = res.new_id;
                 this.$root.user.logged_in = true;
                 this.$root.user.name = this.username;
                 window.location.hash = "#/home"
             }
             else {
+                            //give some error
+
                 return;
             }
         }
