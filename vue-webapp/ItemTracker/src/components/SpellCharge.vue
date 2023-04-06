@@ -38,12 +38,12 @@ export default {
             </div>
             <div class="col-6 pe-0 d-flex justify-content-end align-items-center">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-warning btn-sm" @click="useOneOf">
+                    <button type="button" class="btn btn-primary btn-sm" @click="useOneOf">
                         Use
                     </button>
-                    <button type="button" class="btn btn-primary btn-sm" @click="restoreOneOf">
+                    <!-- <button type="button" class="btn btn-primary btn-sm" @click="restoreOneOf">
                         Restore
-                    </button>
+                    </button> -->
                     <button type="button" class="btn btn-success btn-sm" @click="restoreAll">
                         Restore All
                     </button>

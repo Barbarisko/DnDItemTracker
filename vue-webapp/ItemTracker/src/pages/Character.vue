@@ -269,7 +269,7 @@ export default {
                 <TitleWithEdit :title="spellSlots.title" />
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(level, index) in spellSlots.levels" :key="index">
-                        <SpellCharge :title="intToRoman(level.level) + ' Level' + JSON.stringify(level.charges)"
+                        <SpellCharge :title="intToRoman(level.level) + ' Level'"
                             :charges="level.charges" @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)"
                             @restoreAll="() => restoreAllSpellCharges(index)" />
                     </li>
@@ -288,7 +288,7 @@ export default {
             </div>
 
             <div class="pt-4 col-sm-12 col-md-6">
-                <Title :title="'Consumables'" />
+                <TitleWithEdit :title="'Consumables'" />
                 <ul class="pt-2 list-group">
                     <li v-for="(item, index) in consumables" class="list-group-item">
                         <Consumable :name="item.name" :descr="item.descr" :amount="item.amount"
@@ -305,7 +305,8 @@ export default {
             </div>
 
             <div class="pt-4 col-sm-12 col-md-6">
-                <Title :title="'Artifacts'" />
+                <TitleWithEdit :title="'Artifacts'" />
+
                 <div class="pt-2 list-group">
                     <div v-for="(artif, index) in artifacts" class="list-group-item">
                         <Artifacts :name="artif.name" :descr="artif.descr" :charges="artif.charges"
