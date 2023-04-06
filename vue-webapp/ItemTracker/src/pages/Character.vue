@@ -20,15 +20,15 @@ import user_api from '@/apis/user_api'
 
 export default {
     components: {
-    Title,
-    TitleWithEdit,
-    SpellCharge,
-    Consumable,
-    Artifacts,
-    BackpackItem,
-    NewItemForm,
-    EditChargesForm
-},
+        Title,
+        TitleWithEdit,
+        SpellCharge,
+        Consumable,
+        Artifacts,
+        BackpackItem,
+        NewItemForm,
+        EditChargesForm
+    },
     data() {
         return {
             user_id: 1,
@@ -227,9 +227,9 @@ export default {
                 charges: obj.charges,
                 character_id: this.character_id
             }
-            var res = await artifact_api.create(obj.name,  obj.charges, obj.descr, this.character_id);
+            var res = await artifact_api.create(obj.name, obj.charges, obj.descr, this.character_id);
             if (res.status)
-                this.artifacts.push(item);       
+                this.artifacts.push(item);
         },
 
         //Backpacks
@@ -294,7 +294,7 @@ export default {
             </div>
 
             <div class="pt-4 col-sm-12 col-md-6">
-                <TitleWithEdit :title="'Consumables'" />
+                <Title :title="'Consumables'" />
                 <ul class="pt-2 list-group">
                     <li v-for="(item, index) in consumables" class="list-group-item">
                         <Consumable :name="item.name" :descr="item.descr" :amount="item.amount"
@@ -311,7 +311,7 @@ export default {
             </div>
 
             <div class="pt-4 col-sm-12 col-md-6">
-                <TitleWithEdit :title="'Artifacts'" />
+                <Title :title="'Artifacts'" />
 
                 <div class="pt-2 list-group">
                     <div v-for="(artif, index) in artifacts" class="list-group-item">
@@ -367,4 +367,5 @@ export default {
                 </ul>
             </div>
         </div>
-    </div></template>
+    </div>
+</template>
