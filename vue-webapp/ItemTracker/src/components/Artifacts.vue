@@ -1,4 +1,6 @@
 <script>
+import artifact_api from '../apis/artifact_api';
+
 
 export default {
     props: {

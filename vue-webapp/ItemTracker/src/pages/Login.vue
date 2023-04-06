@@ -27,7 +27,7 @@ export default {
 
             var pwd_hash = await utils.sha256(this.password)
 
-            var res = await (this.registerMode ? user_api.create(this.username, pwd_hash) : user_api.login(this.usernamem, pwd_hash));
+            var res = await (this.registerMode ? user_api.create(this.username, pwd_hash) : user_api.login(this.username, pwd_hash));
 
             if (res.status) {
                 this.$root.user.id = res.new_id;
