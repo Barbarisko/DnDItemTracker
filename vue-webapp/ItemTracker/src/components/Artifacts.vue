@@ -15,6 +15,16 @@ export default {
         },
         restoreAll(event) {
             this.$emit('restoreAll');
+        },
+        useOneOf(event) {
+            var index = this.charges.findIndex(el => !el);
+            if (index == -1) {
+                return;
+            }
+            this.$emit('CheckBoxClick', index, true);
+        },
+        restoreAll(event) {
+            this.$emit('restoreAll');
         }
     }
 }
@@ -22,13 +32,21 @@ export default {
 
 <template>
     <div class="row">
-        <div class="col-8">
+        <div class="col-6">
             <h5 class="p-1"> {{ name }} </h5>
         </div>
-        <div class="col-4 d-flex justify-content-end">
-            <button type="button" class="btn btn-outline-danger btn-sm align-self-center" @click="restoreAll">
-                Reset All
-            </button>
+        <div class="col-6 d-flex justify-content-end align-items-center">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-primary btn-sm" @click="useOneOf">
+                    Use
+                </button>
+                <!-- <button type="button" class="btn btn-primary btn-sm" @click="restoreOneOf">
+                            Restore
+                        </button> -->
+                <button type="button" class="btn btn-success btn-sm" @click="restoreAll">
+                    Restore All
+                </button>
+            </div>
         </div>
     </div>
     <div class="row m-1 d-flex align-items-center">
