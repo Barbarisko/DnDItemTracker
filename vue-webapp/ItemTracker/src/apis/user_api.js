@@ -5,7 +5,7 @@ var user_api = {
       status: false,
       new_id: -1
     }
-    await fetch(`http://127.0.0.1:5000/api/user/create/`, {
+    await fetch(`/api/user/create`, {
       method: 'POST',
       body: JSON.stringify(
         {
@@ -38,7 +38,7 @@ var user_api = {
       status: false,
       new_id: -1
     }
-    await fetch(`http://127.0.0.1:5000/api/user/login/`, {
+    await fetch(`/api/user/login`, {
       method: 'POST',
       body: JSON.stringify(
         {

@@ -2,7 +2,7 @@ var consumable_api = {
 
     async get_all_consumables(character_id) { 
         var consumables = []
-        await fetch(`http://127.0.0.1:5000/api/consumables/get_all/${character_id}`, {
+        await fetch(`/api/consumables/get_all/${character_id}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'

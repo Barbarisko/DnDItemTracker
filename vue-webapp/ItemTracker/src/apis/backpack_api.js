@@ -1,7 +1,7 @@
 var backpack_api = {
     async get_all_items(character_id) { 
         var items = []
-        await fetch(`http://127.0.0.1:5000/api/items/get_all/${character_id}`, {
+        await fetch(`/api/items/get_all/${character_id}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'

@@ -2,7 +2,7 @@ var spell_api = {
 
     async get_all_spell_levels(character_id) { 
         var spell_levels = []
-        await fetch(`http://127.0.0.1:5000/api/spell_levels/get_all/${character_id}`, {
+        await fetch(`/api/spell_levels/get_all/${character_id}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
@@ -32,7 +32,7 @@ var spell_api = {
     },
 
     async set(level_id, level, charges, used_charges) {
-        return await fetch(`http://127.0.0.1:5000/api/spell_levels/${level_id}/set`, {
+        return await fetch(`/api/spell_levels/${level_id}/set`, {
             method: 'POST',
             body: JSON.stringify(
                 {

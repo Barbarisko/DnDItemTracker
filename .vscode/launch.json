@@ -11,12 +11,19 @@
             "program": "",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["-m", "flask", "--app", "./backend/main", "run"],
+            "args": [
+                "-m",
+                "flask",
+                "--app",
+                "./backend/main",
+                "run",
+                "--host=0.0.0.0"
+            ],
             "env": {
                 "DB_ADDRESS": "192.168.0.114",
                 "DB_PORT": "5432",
                 "DB_PWD": "lena_help"
-            }   
+            }
         }
     ]
 }

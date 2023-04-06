@@ -1,7 +1,7 @@
 var artifact_api = {
     async get_all_artifacts(character_id) { 
         var artifacts = []
-        await fetch(`http://127.0.0.1:5000/api/artifacts/get_all/${character_id}`, {
+        await fetch(`/api/artifacts/get_all/${character_id}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
@@ -31,7 +31,7 @@ var artifact_api = {
     },
 
     async set(artifact_id, name, charges, used_charges, descr) {
-        return await fetch(`http://127.0.0.1:5000/api/artifacts/${artifact_id}/set`, {
+        return await fetch(`/api/artifacts/${artifact_id}/set`, {
             method: 'POST',
             body: JSON.stringify(
                 {
