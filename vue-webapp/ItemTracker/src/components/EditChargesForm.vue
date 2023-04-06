@@ -18,7 +18,6 @@ export default {
     },
     computed: {
         levels() {
-            debugger
             var res = []
             this.ref_levels.forEach(el => {
                 res.push({
@@ -46,18 +45,15 @@ export default {
                     <ul class="pt-2 list-group">
                         <li class="list-group-item" v-for="(level, index) in this.levels" :key="index">
                             <div class="row ps-2 pe-2">
-                                <div class="col-4 fs-4 ps-0">
+                                <div class="col-6 fs-4 ps-0">
                                     {{ level.name }}
                                 </div>
-                                <div class="col-4">
-                                    <input :value="item_amount" min="1" type="number" id="typeNumber" class="form-control" />
+                                <div class="col-3">
+                                    <input :value="level.charges" min="1" type="number" id="typeNumber" class="form-control" />
                                 </div>
-                                <div class="col-4 pe-0 d-flex justify-content-end align-items-center">
+                                <div class="col-3 pe-0 d-flex justify-content-end align-items-center">
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-primary btn-sm" @click="useOneOf">
-                                            Use
-                                        </button>
-                                        <button type="button" class="btn btn-danger btn-sm" @click="">
+                                        <button type="button" class="btn btn-danger btn-sm" @click="" style="wodth: 100px;">
                                             Delete
                                         </button>
                                     </div>
