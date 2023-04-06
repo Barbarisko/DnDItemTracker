@@ -6,6 +6,7 @@ import Consumable from '@/components/Consumable.vue'
 import Artifacts from '@/components/Artifacts.vue'
 import BackpackItem from '@/components/BackpackItem.vue'
 import NewItemForm from '@/components/NewItemForm.vue'
+import EditChargesForm from '@/components/EditChargesForm.vue'
 
 import utils from '@/utils'
 
@@ -19,14 +20,15 @@ import user_api from '@/apis/user_api'
 
 export default {
     components: {
-        Title,
-        TitleWithEdit,
-        SpellCharge,
-        Consumable,
-        Artifacts,
-        BackpackItem,
-        NewItemForm
-    },
+    Title,
+    TitleWithEdit,
+    SpellCharge,
+    Consumable,
+    Artifacts,
+    BackpackItem,
+    NewItemForm,
+    EditChargesForm
+},
     data() {
         return {
             user_id: 1,
@@ -266,11 +268,12 @@ export default {
     <div class="container mt-2 mb-4">
         <div class="row">
             <div class="pt-4 col-sm-12 col-md-6">
-                <TitleWithEdit :title="spellSlots.title" />
+                <TitleWithEdit :title="spellSlots.title" :id_for_modal_selector="'#SpellSlotsModal'" />
+                <EditChargesForm :title="spellSlots.title" :form_id="'SpellSlotsModal'" :ref_levels="spellSlots.levels" />
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(level, index) in spellSlots.levels" :key="index">
-                        <SpellCharge :title="intToRoman(level.level) + ' Level'"
-                            :charges="level.charges" @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)"
+                        <SpellCharge :title="intToRoman(level.level) + ' Level'" :charges="level.charges"
+                            @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)"
                             @restoreAll="() => restoreAllSpellCharges(index)" />
                     </li>
                 </ul>
@@ -361,5 +364,4 @@ export default {
                 </ul>
             </div>
         </div>
-    </div>
-</template>
+    </div></template>

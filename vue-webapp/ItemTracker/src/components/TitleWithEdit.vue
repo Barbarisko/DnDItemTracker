@@ -1,9 +1,11 @@
 <script>
+
 export default {
-  props: {
-    title: String
-  },
-  emits: ["ItemEdited"]
+    props: {
+        title: String,
+        id_for_modal_selector: String
+    },
+    emits: ["ItemEdited"]
 }
 
 </script>
@@ -15,11 +17,14 @@ export default {
                 {{ title }}
             </div>
             <div class="col-4 d-flex justify-content-end align-items-center">
-                <button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" :data-bs-target="id_for_modal_selector" >
+                    Edit
+                </button>
+
             </div>
         </div>
     </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
