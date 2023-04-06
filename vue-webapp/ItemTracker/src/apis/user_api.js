@@ -34,6 +34,7 @@ var user_api = {
   },
 
   async login(username, password_hash) {
+    debugger
     var result = {
       status: false,
       new_id: -1
@@ -43,7 +44,7 @@ var user_api = {
       body: JSON.stringify(
         {
           username: username,
-          password_hash: password_hash,
+          password_hash: password_hash
         }
       ),
       headers: {

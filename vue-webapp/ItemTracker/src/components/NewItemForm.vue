@@ -1,6 +1,11 @@
 <script>
+import Artifacts from '@/components/Artifacts.vue'
+import artifact_api from '@/apis/artifact_api'
 
 export default {
+    components: {
+        Artifacts
+    },
     props: {
         form_id: String,
         has_charges: {
@@ -73,7 +78,7 @@ export default {
                                 id="descriptionTextAria" style="height: 100px"></textarea>
                         </div>
                         <div class="mb-3">
-                            <template v-if="has_charges" >
+                            <template v-if="has_charges">
                                 <label class="form-label" for="typeNumber">Charges</label>
                                 <input :value="item_amount" @input="event => item_amount = event.target.value" min="1"
                                     type="number" id="typeNumber" class="form-control" />

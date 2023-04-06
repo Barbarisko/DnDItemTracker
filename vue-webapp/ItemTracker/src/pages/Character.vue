@@ -201,7 +201,6 @@ export default {
         },
 
         async restoreAllArtifactCharges(artifact_id) {
-            debugger
             var art = this.artifacts[artifact_id];
             var res = await artifact_api.set(
                 art.id,
@@ -218,13 +217,17 @@ export default {
             }
         },
 
-        addArtifactItem(obj) {
+        async addArtifactItem(obj) {
+            debugger
             var item = {
                 name: obj.name,
                 descr: obj.descr,
-                charges: Array.apply(null, Array(obj.charges)).map(function () { false })
+                charges: obj.charges,
+                character_id: this.character_id
             }
-            this.artifacts.push(item)
+            var res = await artifact_api.create(obj.name,  obj.charges, obj.descr, this.character_id);
+            if (res.status)
+                this.artifacts.push(item);       
         },
 
         //Backpacks
