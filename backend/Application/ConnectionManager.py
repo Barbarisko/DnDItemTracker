@@ -1,4 +1,4 @@
-from Constants import *
+from Application.Constants import *
 
 import psycopg2
 

@@ -2,8 +2,8 @@ from collections import defaultdict
 from contextlib import contextmanager
 from psycopg2 import InterfaceError, DatabaseError
 
-from Loging import *
-from DomainExeption import DatabaseGatewayError
+from Application.Loging import *
+from Application.DomainExeption import DatabaseGatewayError
 
 from flask import abort
 

@@ -1,6 +1,6 @@
 from ActiveRecords.Object import Object
-from ConnectionManager import ConnectionManager
-from Constants import *
+from Application.ConnectionManager import ConnectionManager
+from Application.Constants import *
 
 class Item(Object):
     FIND_ITEM_BY_ID_STR = "SELECT * FROM ITEMS WHERE ITEMS.ID = {};"

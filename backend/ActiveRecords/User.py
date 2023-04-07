@@ -1,7 +1,7 @@
 from ActiveRecords.Object import Object
-from ConnectionManager import ConnectionManager
-from Constants import *
-from DomainExeption import DatabaseGatewayError
+from Application.ConnectionManager import ConnectionManager
+from Application.Constants import *
+from Application.DomainExeption import DatabaseGatewayError
 
 
 class User(Object):

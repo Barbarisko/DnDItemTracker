@@ -1,10 +1,10 @@
 from flask import request, abort
-from application import app
+from Application.application import app
 
 import APIHandlers.ExeptionHandler as ExeptionHandler 
 from ActiveRecords.User import User
-from Loging import *
-from Constants import *
+from Application.Loging import *
+from Application.Constants import *
 
 
 @app.route('/api/user/login', methods=['POST'])

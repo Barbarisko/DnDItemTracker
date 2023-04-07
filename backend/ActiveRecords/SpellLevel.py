@@ -1,6 +1,6 @@
 from ActiveRecords.Object import Object
-from ConnectionManager import ConnectionManager
-from Constants import *
+from Application.ConnectionManager import ConnectionManager
+from Application.Constants import *
 
 class SpellLevel(Object):
     FIND_SPELL_LEVELS_BY_ID_STR = "SELECT * FROM SPELL_LEVELS WHERE SPELL_LEVELS.ID = {};"

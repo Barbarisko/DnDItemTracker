@@ -1,7 +1,7 @@
-from Loging import configure_logging
+from Application.Loging import configure_logging
 configure_logging()
 
-from application import app
+from Application.application import app
 
 from APIHandlers.UserAPI import *
 from APIHandlers.CharacterAPI import *
