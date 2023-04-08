@@ -3,13 +3,13 @@ configure_logging()
 
 from Application.application import app
 
-from APIHandlers.UserAPI import *
-from APIHandlers.CharacterAPI import *
-from APIHandlers.ArtifactAPI import *
-from APIHandlers.SpellLevelAPI import *
-from APIHandlers.SpecialPowerAPI import *
-from APIHandlers.ConsumablesAPI import *
-from APIHandlers.ItemsAPI import *
+from APIHandlers.UserAPI import app
+from APIHandlers.CharacterAPI import app
+from APIHandlers.ArtifactAPI import app
+from APIHandlers.SpellLevelAPI import app
+from APIHandlers.SpecialPowerAPI import app
+from APIHandlers.ConsumablesAPI import app
+from APIHandlers.ItemsAPI import app
 
 @app.route("/")
 def index():
