@@ -3,7 +3,7 @@ import user_api from '@/apis/user_api'
 import utils from '@/utils'
 
 export default {
-
+    emits: ["setUser"],
     data() {
         return {
             registerMode: false,
@@ -28,12 +28,14 @@ export default {
             var pwd_hash = await utils.sha256(this.password)
 
             var res = await (this.registerMode ? user_api.create(this.username, pwd_hash) : user_api.login(this.username, pwd_hash));
-
+            
             if (res.status) {
-                this.$root.user.id = res.new_id;
-                this.$root.user.logged_in = true;
-                this.$root.user.name = this.username;
-                window.location.hash = "#/home"
+                this.$emit('setUser', 
+                {
+                    id: res.new_id,
+                    logged_in: true,
+                    name: this.username
+                })
             }
             else {
                 //give some error
