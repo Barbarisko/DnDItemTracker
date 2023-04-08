@@ -34,7 +34,6 @@ var user_api = {
   },
 
   async login(username, password_hash) {
-    debugger
     var result = {
       status: false,
       new_id: -1
