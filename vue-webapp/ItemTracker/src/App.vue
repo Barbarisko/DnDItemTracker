@@ -20,18 +20,22 @@ export default {
                 id: -1,
                 logged_in: false,
                 name: "",
-                selected_character: ""
+                selected_character: 
+                {
+                    id: -1,
+                    name: ""
+                }
             }
         }
     },
     computed: {
         currentView() {
-            // if (!this.user.logged_in) {
-            //     if (this.currentPath == '#/about') {
-            //         return About;
-            //     }
-            //     return Login;
-            // }
+            if (!this.user.logged_in) {
+                if (this.currentPath == '#/about') {
+                    return About;
+                }
+                return Login;
+            }
             return routes[this.currentPath.slice(1) || '/'] || Login;
         },
         user_character_title() {
@@ -41,7 +45,7 @@ export default {
             if (this.user.selected_character == "")
                 return this.user.name;
 
-            return this.user.name + " and hero: " + this.user.selected_character;
+            return this.user.name + " and hero: " + this.user.selected_character.name;
         }
     },
     mounted() {
@@ -50,13 +54,31 @@ export default {
         })
     },
     methods: {
-        logIn() {
+        logOut() {
             this.user = {
                 id: -1,
                 logged_in: false,
                 name: "",
-                selected_character: ""
+                selected_character:                
+                {
+                    id: -1,
+                    name: ""
+                }
             }
+        },
+        logIn(user_data) 
+        { 
+            this.user.id = user_data.id;
+            this.user.logged_in = user_data.logged_in;
+            this.user.name = user_data.name;
+
+            window.location.hash = "#/home";
+        },
+        setCharacter(character)
+        {
+            this.user.selected_character.id = character.id;
+            this.user.selected_character.name = character.name;
+            window.location.hash = "#/character";
         }
     }
 }
@@ -88,14 +110,16 @@ export default {
                     </span>
 
                     <a href="#/login" v-if="!user.logged_in" class="btn btn-outline-success ms-3" tabindex="-1"
-                        role="button" @click="logIn" style="width: 90px;">Log In</a>
+                        role="button" @click="logOut" style="width: 90px;">Log In</a>
                     <a href="#/login" v-if="user.logged_in" class="btn btn-outline-danger ms-3" tabindex="-1" role="button"
-                        @click="logIn" style="width: 90px;">Log Out</a>
+                        @click="logOut" style="width: 90px;">Log Out</a>
 
                 </div>
             </div>
         </div>
     </nav>
 
-    <component :is="currentView" />
+    <component :is="currentView" :user_id="user.id"
+        v-on:setCharacter="setCharacter"
+        v-on:setUser="logIn" />
 </template>

@@ -11,23 +11,18 @@ services:
       - "5432:5432"
   
   backend: 
-    image: olena/item-tracker-back:latest
+    image: barbarisko/item-tracker-back:latest
     restart: always
     environment:
       DB_ADDRESS: db,
       DB_PORT: 5432,
       DB_PWD: lena_help
-    ports:
-      - "5000:5000"
 
   frontend: 
-    image: olena/item-tracker-front:latest
+    image: barbarisko/item-tracker-front:latest
     restart: always
     ports:
-      - "5173:5173"
-
-  nginx: 
-    image: nginx:latest
+      - "90:80"
   
 volumes:
   db-data:

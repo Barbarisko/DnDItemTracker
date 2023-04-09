@@ -225,7 +225,6 @@ export default {
         },
 
         async addArtifactItem(obj) {
-            debugger
             var item = {
                 name: obj.name,
                 descr: obj.descr,
