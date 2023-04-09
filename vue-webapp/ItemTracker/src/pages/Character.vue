@@ -133,7 +133,6 @@ export default {
         },
 
         async restoreAllSpellCharges(level_id) {
-
             var level = this.spellSlots.levels[level_id];
             var res = await spell_api.set(
                 level.id,
@@ -146,6 +145,12 @@ export default {
                     level.charges[i] = false;
                 }
             }
+        },
+
+        async ReloadSpells() {
+            this.spellSlots.levels = []
+            spell_api.get_all_spell_levels(this.character_id)
+            .then(data => this.spellSlots.levels = data)
         },
 
         //Special Powers
@@ -272,7 +277,9 @@ export default {
         <div class="row">
             <div class="pt-4 col-sm-12 col-md-6">
                 <TitleWithEdit :title="spellSlots.title" :id_for_modal_selector="'#SpellSlotsModal'" />
-                <EditChargesForm :title="spellSlots.title" :form_id="'SpellSlotsModal'" :ref_levels="spellSlots.levels" />
+                <EditChargesForm :title="spellSlots.title" :form_id="'SpellSlotsModal'" :ref_levels="spellSlots.levels"
+                    :character_id="character_id" @UpdateSpells="ReloadSpells" />
+
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(level, index) in spellSlots.levels" :key="index">
                         <SpellCharge :title="intToRoman(level.level) + ' Level'" :charges="level.charges"

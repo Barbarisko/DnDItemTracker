@@ -13,6 +13,8 @@ class SpellLevel(Object):
     INSERT_CHARACTER_SPELL_LEVELS_STR = "INSERT INTO CHAR_SPELLS (CHARACTER_ID, SPELL_ID) VALUES({}, {});"
 
     UPDATE_SPELL_LEVELS_STR = "UPDATE SPELL_LEVELS SET (LEVEL, CHARGES, USED_CHARGES) = ({}, {}, {}) WHERE SPELL_LEVELS.ID = {};"
+    
+    DELETE_CHARACTER_SPELL_STR = "DELETE FROM CHAR_SPELLS WHERE SPELL_ID = {};"
     DELETE_SPELL_LEVELS_STR = "DELETE FROM SPELL_LEVELS WHERE ID = {};"
 
     def __init__(self, level, charges, used_charges, id = INVALID_ID):
@@ -66,5 +68,6 @@ class SpellLevel(Object):
     def delete(self):
         with ConnectionManager() as manager:
             with manager.get_cursor() as cur:
+                cur.execute(SpellLevel.DELETE_CHARACTER_SPELL_STR.format(self.id))
                 cur.execute(SpellLevel.DELETE_SPELL_LEVELS_STR.format(self.id))
     
