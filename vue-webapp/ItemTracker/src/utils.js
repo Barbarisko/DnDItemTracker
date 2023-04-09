@@ -1,22 +1,33 @@
 var utils = {
 
     calculate_used_charges(charges) {
-        return charges.reduce((total,x) => total+(x), 0)
+        return charges.reduce((total, x) => total + (x), 0)
     },
-    
+
     async sha256(message) {
-        // encode as UTF-8
-        const msgBuffer = new TextEncoder().encode(message);
+        if (crypto.subtle) {
 
-        // hash the message
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            // encode as UTF-8
+            const msgBuffer = new TextEncoder().encode(message);
 
-        // convert ArrayBuffer to Array
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
+            // hash the message
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
 
-        // convert bytes to hex string                  
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex;
+            // convert ArrayBuffer to Array
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+            // convert bytes to hex string                  
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        // will use this until https configured 
+        let hash = 0;
+        for (let i = 0; i < message.length; i++) {
+            hash = (hash << 5) - hash + message.charCodeAt(i);
+            hash |= 0; // Convert to 32bit integer
+        }
+        return String(hash);
     },
     intToRoman(num) {
         if (isNaN(num))
