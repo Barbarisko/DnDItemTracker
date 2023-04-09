@@ -5,8 +5,12 @@ from Application.Constants import *
 
 class Character(Object):
     FIND_CHARACTER_BY_ID_STRING = "SELECT * FROM CHARACTERS WHERE CHARACTERS.ID = {};"
+    FIND_ALL_FOR_USER = "SELECT a.id, a.name, a.level, a.class FROM CHARACTERS as a \
+                                LEFT JOIN USERS_CHARS ON (a.ID = USERS_CHARS.character_id) \
+                                LEFT JOIN USERS ON (USERS_CHARS.user_id = USERS.ID) \
+                                WHERE USERS_CHARS.USER_ID = {}"
     INSERT_CHARACTER_STRING = "INSERT INTO CHARACTERS (NAME, LEVEL, CLASS) VALUES('{}', {}, '{}') RETURNING ID;"
-    INSERT_USER_CHARACTER_STRING = "INSERT INTO USER_CHARACTERS (USER_ID, CHARACTER_ID) VALUES({}, {})"
+    INSERT_USER_CHARACTER_STRING = "INSERT INTO USERS_CHARS (USER_ID, CHARACTER_ID) VALUES({}, {})"
     UPDATE_CHARACTER_STRING = "UPDATE CHARACTERS SET (NAME, LEVEL, CLASS) = ('{}', {}, '{}') WHERE CHARACTERS.ID = {};"
     DELETE_CHARACTER_STRING = "DELETE FROM CHARACTERS WHERE ID = {};"
 
@@ -32,13 +36,25 @@ class Character(Object):
                 level = data[2]
                 class_name = data[3]
         return my_class(name, level, class_name, res_id)
+    
+    @classmethod
+    def from_user_id(my_class, user_id):
+        res = []
+        # Find by ID
+        with ConnectionManager() as manager:
+            with manager.get_cursor() as cur:
+                cur.execute(Character.FIND_ALL_FOR_USER.format(user_id))
+                data = cur.fetchall()
+                for character_tuple in data:
+                    res.append(my_class(character_tuple[1], character_tuple[2], character_tuple[3], character_tuple[0]))
+        return res
 
     def insert(self, user_id):
         with ConnectionManager() as manager:
             with manager.get_cursor() as cur:
                 cur.execute(Character.INSERT_CHARACTER_STRING.format(self.name, self.level, self.class_name))
                 new_id = cur.fetchone()[0]
-                # cur.execute(Character.INSERT_USER_CHARACTER_STRING.format(user_id, new_id))
+                cur.execute(Character.INSERT_USER_CHARACTER_STRING.format(user_id, new_id))
                 return new_id
 
     def update(self):

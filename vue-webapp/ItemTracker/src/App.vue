@@ -101,7 +101,7 @@ export default {
                         <a class="nav-link disabled" href="#/dm-info">DM Info</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#/dm-info">Donate</a>
+                        <a class="nav-link" href="https://send.monobank.ua/jar/2WeUR25CS3">Donate</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -119,7 +119,7 @@ export default {
         </div>
     </nav>
 
-    <component :is="currentView" :user_id="user.id"
+    <component :is="currentView" :user_id="user.id" :character_id="user.selected_character.id"
         v-on:setCharacter="setCharacter"
         v-on:setUser="logIn" />
 </template>

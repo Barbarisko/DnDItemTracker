@@ -14,7 +14,7 @@ export default {
     emits: ["setCharacter"],
     props:
     {
-        user_id: String
+        user_id: Number
     },
     data() {
         return {
@@ -24,25 +24,40 @@ export default {
                     name: "jeifjiefj",
                     level: 2
                 }
-            ]
+            ],
+            new_name: "",
+            new_level: 1,
+            new_class: ""
         }
     },
     methods:
     {
-        addNew() {
-
+        async addNew() {
+            debugger
+            var item = {
+                name: this.new_name,
+                level: this.new_level,
+                class_name: this.new_class,
+            }
+            var res = await character_api.create(this.new_name, this.new_level, this.new_class, this.user_id);
+            if (res.status)
+            {
+                item.id = res.new_id;
+                this.characters.push(item);
+            }
         },
+
         select(index) {
             this.$emit('setCharacter',
                 {
-                    id: this.characters.id,
-                    name: this.characters.name
+                    id: this.characters[index].id,
+                    name: this.characters[index].name
                 }
             )
         }
     },
     mounted() {
-        // spell_api.get_all_spell_levels(this.character_id).then(data => this.spellSlots.levels = data)
+        character_api.get_all_characters(this.user_id).then(data => this.characters = data)
     }
 }
 
@@ -54,15 +69,33 @@ export default {
     <div class="container fs-2 fw-semibold">
 
         <ul class="pt-2 list-group">
-            <li class="list-group-item" v-for="(ch, index) in characters" >
+            <li class="list-group-item" v-for="(ch, index) in characters">
                 <div @click="select(index)">
                     {{ ch.name + " " + ch.level + " level " }}
                 </div>
             </li>
             <li class="list-group-item">
-                <button type="button" class="btn btn-success" style="width: 100%;" @click="addNew">
-                    New
-                </button>
+                <div class="row">
+                    <div class="col">
+                        <label for="NameInput" class="form-label">Name</label>
+                        <input v-model="new_name" type="text" class="form-control" id="NameInput" required="" />
+                    </div>
+                    <div class="col">
+                        <label class="form-label" for="LevelInput">Level</label>
+                        <input v-model="new_level" min="1" type="number" id="LevelInput" class="form-control" />
+                    </div>
+                    <div class="col">
+                        <label for="ClassInput" class="form-label">Class</label>
+                        <input v-model="new_class" type="text" class="form-control" id="ClassInput" required="" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <button type="button" class="btn btn-success" style="width: 100%;" @click="addNew">
+                            New
+                        </button>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>

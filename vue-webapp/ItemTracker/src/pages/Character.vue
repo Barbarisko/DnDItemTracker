@@ -29,10 +29,14 @@ export default {
         NewItemForm,
         EditChargesForm
     },
+    props: {
+        user_id: Number,
+        character_id: Number,
+    },
     data() {
+
         return {
-            user_id: 1,
-            character_id: 1,
+
             spellSlots:
             {
                 title: 'Spell Slots',
@@ -150,7 +154,7 @@ export default {
         async ReloadSpells() {
             this.spellSlots.levels = []
             spell_api.get_all_spell_levels(this.character_id)
-            .then(data => this.spellSlots.levels = data)
+                .then(data => this.spellSlots.levels = data)
         },
 
         //Special Powers
