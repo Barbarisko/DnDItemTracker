@@ -33,7 +33,6 @@ export default {
     methods:
     {
         async addNew() {
-            debugger
             var item = {
                 name: this.new_name,
                 level: this.new_level,

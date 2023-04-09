@@ -20,7 +20,6 @@ export default {
             this.levels.splice(index, 1);
         },
         onAdd(event) {
-            debugger
             var new_el = {
                 id: -1,
                 level: -1,
@@ -70,7 +69,6 @@ export default {
     },
     watch: {
         ref_levels(newLevels, oldLevels) {
-            debugger
             this.levels = []
             newLevels.forEach(el => {
                 this.levels.push({
