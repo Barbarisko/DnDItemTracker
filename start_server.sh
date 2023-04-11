@@ -11,5 +11,6 @@ export MY_EMAIL=""
 export CERTBOT_MODE=--force-renewal
 
 docker compose down
+docker volume rm dnditemtracker_web-root
 docker compose pull
 docker compose up -d db backend frontend
