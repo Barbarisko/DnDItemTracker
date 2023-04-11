@@ -20,7 +20,7 @@ export default {
                 id: -1,
                 logged_in: false,
                 name: "",
-                selected_character: 
+                selected_character:
                 {
                     id: -1,
                     name: ""
@@ -31,10 +31,23 @@ export default {
     computed: {
         currentView() {
             if (!this.user.logged_in) {
+                var prev_login = this.getUserIdCookie()
+                if (prev_login.length) {
+                    const cookieValue = prev_login[0].split("=")[1];
+                    this.user.id = Number(cookieValue);
+                    this.user.logged_in = true;
+                    //get username
+                }
+            }
+            if (!this.user.logged_in) {
                 if (this.currentPath == '#/about') {
                     return About;
                 }
                 return Login;
+            }
+            if(this.user.selected_character.id < 0 && this.currentPath.slice(1) == '/character')
+            {
+                return Home;
             }
             return routes[this.currentPath.slice(1) || '/'] || Login;
         },
@@ -59,23 +72,40 @@ export default {
                 id: -1,
                 logged_in: false,
                 name: "",
-                selected_character:                
+                selected_character:
                 {
                     id: -1,
                     name: ""
                 }
             }
+            this.delete_cookie("user_id");
         },
-        logIn(user_data) 
-        { 
+        getUserIdCookie() {
+            return document.cookie.split(';').filter((item) => item.trim().startsWith('user_id='));
+        },
+        delete_cookie(name, path, domain) {
+            document.cookie = name + "=" +
+                ((path) ? ";path=" + path : "") +
+                ((domain) ? ";domain=" + domain : "") +
+                ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+        },
+        logIn(user_data) {
+            var prev_login = this.getUserIdCookie();
+
+            if (prev_login.length) {
+                prev_login.forEach(element => {
+                    this.delete_cookie("user_id");
+                });
+            }
+            document.cookie = `user_id=${user_data.id}; ;max-age=max-age-in-seconds=${60 * 60 * 1};SameSite=Lax;`;
+
             this.user.id = user_data.id;
             this.user.logged_in = user_data.logged_in;
             this.user.name = user_data.name;
 
             window.location.hash = "#/home";
         },
-        setCharacter(character)
-        {
+        setCharacter(character) {
             this.user.selected_character.id = character.id;
             this.user.selected_character.name = character.name;
             window.location.hash = "#/character";
@@ -120,6 +150,5 @@ export default {
     </nav>
 
     <component :is="currentView" :user_id="user.id" :character_id="user.selected_character.id"
-        v-on:setCharacter="setCharacter"
-        v-on:setUser="logIn" />
+        v-on:setCharacter="setCharacter" v-on:setUser="logIn" />
 </template>
