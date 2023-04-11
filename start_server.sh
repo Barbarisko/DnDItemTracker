@@ -10,4 +10,6 @@ export POSTGRES_PASSWORD=${postgres_password}
 export MY_EMAIL=""
 export CERTBOT_MODE=--force-renewal
 
+docker compose down
+docker compose pull
 docker compose up -d db backend frontend
