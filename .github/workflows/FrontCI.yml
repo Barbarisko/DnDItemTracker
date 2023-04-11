@@ -29,9 +29,9 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v4
         with:
-          working-directory: ./vue-webapp/ItemTracker/
-          context: .
-          file: ./Dockerfile
+          working-directory: 
+          context: ./vue-webapp/ItemTracker/
+          file: ./vue-webapp/ItemTracker/Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}item-tracker-front:${{github.run_number}}
