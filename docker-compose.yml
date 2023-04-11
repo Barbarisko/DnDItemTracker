@@ -48,3 +48,9 @@ volumes:
     driver: local
   db-data:
     driver: local
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./dhparam/
+      o: bind
