@@ -32,6 +32,6 @@ jobs:
           context: ./vue-webapp/ItemTracker/
           file: ./Dockerfile
           push: true
-          tags: 
-            - ${{ secrets.DOCKERHUB_USERNAME }}item-tracker-front:$(date +%s)
-            - ${{ secrets.DOCKERHUB_USERNAME }}item-tracker-front:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}item-tracker-front:$(date +%s)
+            ${{ secrets.DOCKERHUB_USERNAME }}item-tracker-front:latest
