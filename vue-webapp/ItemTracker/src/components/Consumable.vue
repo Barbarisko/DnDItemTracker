@@ -15,6 +15,9 @@ export default {
         },
         add(event) {
             this.$emit('ChangeAmount', 1)
+        },
+        remove() {
+            
         }
     }
 }
@@ -22,16 +25,19 @@ export default {
 
 <template>
     <div class="row d-flex align-items-center">
-        <div class="col-8 d-flex">
-            <div class="fs-5 fw-semibold">
+        <div class="col-7 d-flex">
+            <div class="fs-5 fw-semibold text-break">
                {{ name }} 
             </div>
             <span class="m-1 badge bg-secondary align-self-stretch">x{{ amount }}</span>
         </div>
-        <div class="col-4 d-flex justify-content-end">
+        <div class="col-5 d-flex justify-content-end">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button @click="use" type="button" class="btn btn-primary btn-sm" style="width: 40px">-</button>
                 <button @click="add" type="button" class="btn btn-primary btn-sm" style="width: 40px">+</button>
+                <button @click="remove" type="button" class="btn btn-danger btn-sm" style="width: 40px">
+                    <i class="bi bi-trash3"></i>
+                </button>
             </div>
         </div>
     </div>

@@ -9,7 +9,7 @@ export default {
     emits: ["ChangeAmount", "DeleteItem", "DuplicateItem", "EditItem"],
     methods: {
         use(event) {
-            if(this.amount <= 0)
+            if (this.amount <= 0)
                 return
             this.$emit('ChangeAmount', -1)
         },
@@ -42,8 +42,10 @@ export default {
     </div>
 
     <div class="row m-1 justify-content-end">
-        <div class="col-lg-4 col-9 btn-group" role="group" aria-label="Basic mixed styles example">
-            <button @click="$emit('DeleteItem')" type="button" class="btn btn-danger">Delete</button>
+        <div class="col-lg-4 col-7 btn-group" role="group" aria-label="Basic mixed styles example">
+            <button @click="$emit('DeleteItem')" type="button" class="btn btn-danger">
+                <i class="bi bi-trash3"></i>
+            </button>
             <button type="button" class="btn btn-primary">Edit</button>
             <button @click="() => $emit('DuplicateItem')" type="button" class="btn btn-success">Duplicate</button>
         </div>

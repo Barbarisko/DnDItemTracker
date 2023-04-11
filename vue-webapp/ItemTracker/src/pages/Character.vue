@@ -124,7 +124,6 @@ export default {
             return res;
         },
 
-
         //Spells
         async onUseSpellCharge(level_id, charge_id, checked) {
             this.spellSlots.levels[level_id].charges[charge_id] = checked;
