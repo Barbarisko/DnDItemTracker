@@ -4,7 +4,7 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_PASSWORD: lena_help
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
@@ -16,14 +16,42 @@ services:
     environment:
       DB_ADDRESS: db,
       DB_PORT: 5432,
-      DB_PWD: lena_help
+      DB_PWD: ${POSTGRES_PASSWORD}
 
   frontend: 
     image: barbarisko/item-tracker-front:latest
     restart: always
     ports:
-      - "90:80"
-  
+      - "80:80"
+      - "443:443"
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - dhparam:/etc/ssl/certs
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - frontend
+    command: certonly --webroot --webroot-path=/var/www/html --email ${MY_EMAIL} --agree-tos --no-eff-email ${CERTBOT_MODE} -d itemtracker.site -d www.itemtracker.site 
+
 volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
   db-data:
     driver: local
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: /root/DnDItemTracker/dhparam/
+      o: bind
