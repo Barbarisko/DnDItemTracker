@@ -14,6 +14,10 @@ fi
 
 export POSTGRES_PASSWORD=${postgres_password}
 export MY_EMAIL=${email}
-export CERTBOT_MODE=--force-renewal
+export CERTBOT_MODE=--staging
 
 docker compose up -d
+
+mkdir dhparam
+openssl dhparam -out dhparam/dhparam-2048.pem 2048
+

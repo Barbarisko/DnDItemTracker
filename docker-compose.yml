@@ -4,7 +4,7 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_PASSWORD: lena_help
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
@@ -16,13 +16,14 @@ services:
     environment:
       DB_ADDRESS: db,
       DB_PORT: 5432,
-      DB_PWD: lena_help
+      DB_PWD: ${POSTGRES_PASSWORD}
 
   frontend: 
     image: barbarisko/item-tracker-front:latest
     restart: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - web-root:/var/www/html
       - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
@@ -38,7 +39,7 @@ services:
       - web-root:/var/www/html
     depends_on:
       - frontend
-    command: certonly --webroot --webroot-path=/var/www/html --email kostik.cu4er@gmail.com --agree-tos --no-eff-email --staging -d itemtracker.site -d www.itemtracker.site 
+    command: certonly --webroot --webroot-path=/var/www/html --email ${MY_EMAIL} --agree-tos --no-eff-email ${CERTBOT_MODE} -d itemtracker.site -d www.itemtracker.site 
 
 volumes:
   certbot-etc:
