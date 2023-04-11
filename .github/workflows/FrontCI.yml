@@ -8,8 +8,8 @@ on:
 
 jobs:
 
-  build:
-
+  front:
+    name: Build and Push Front image
     runs-on: ubuntu-latest
 
     steps:
@@ -33,5 +33,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}item-tracker-front:$(date +%s)
+            ${{ secrets.DOCKERHUB_USERNAME }}item-tracker-front:${{github.run_number}}
             ${{ secrets.DOCKERHUB_USERNAME }}item-tracker-front:latest
