@@ -56,8 +56,65 @@ var sp_api = {
             console.log(error)
             return false
         })
-    }
+    },
 
+    async delete(power_id) {
+        return await fetch(`/api/special_powers/${power_id}/delete`, {
+            method: 'DELETE',
+            body: JSON.stringify(
+                {
+                }
+            ),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
+            .then(response => {
+                // indicates whether the response is successful (status code 200-299) or not
+                if (!response.ok) {
+                    throw new Error(`Request failed with status ${reponse.status}`)
+                }
+                return true
+            })
+            .catch(error => {
+                console.log(error)
+                return false
+            })
+    },
+
+    async create(name, charges, used_charges, character_id) {
+        var result = {
+            status: false,
+            new_id: -1
+        }
+        await fetch(`/api/special_powers/add`, {
+            method: 'POST',
+            body: JSON.stringify(
+                {
+                    name: name,
+                    charges: charges,
+                    used_charges: used_charges,
+                    character_id: character_id
+                }
+            ),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
+            .then(response => {
+                // indicates whether the response is successful (status code 200-299) or not
+                if (!response.ok) {
+                    throw new Error(`Request failed with status ${reponse.status}`)
+                }
+                return response.json()
+            })
+            .then(data => {
+                result.status = true;
+                result.new_id = data['id'];
+            })
+            .catch(error => console.log(error))
+        return result
+    }
   }
   
   export default sp_api

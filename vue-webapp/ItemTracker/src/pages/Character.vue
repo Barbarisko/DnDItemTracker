@@ -17,18 +17,20 @@ import consumable_api from '@/apis/consumable_api'
 import sp_api from '@/apis/sp_api'
 import spell_api from '@/apis/spell_api'
 import user_api from '@/apis/user_api'
+import EditSpPowersForm from '@/components/EditSpPowersForm.vue'
 
 export default {
     components: {
-        Title,
-        TitleWithEdit,
-        SpellCharge,
-        Consumable,
-        Artifacts,
-        BackpackItem,
-        NewItemForm,
-        EditChargesForm
-    },
+    Title,
+    TitleWithEdit,
+    SpellCharge,
+    Consumable,
+    Artifacts,
+    BackpackItem,
+    NewItemForm,
+    EditChargesForm,
+    EditSpPowersForm
+},
     props: {
         user_id: Number,
         character_id: Number,
@@ -155,6 +157,12 @@ export default {
             this.spellSlots.levels = []
             spell_api.get_all_spell_levels(this.character_id)
                 .then(data => this.spellSlots.levels = data)
+        },
+
+        async ReloadSpecialPowers() {
+            this.spellSlots.levels = []
+            spell_api.get_all_special_powers(this.character_id)
+                .then(data => this.spPowers.powers = data)
         },
 
         //Special Powers
@@ -293,7 +301,10 @@ export default {
             </div>
 
             <div class="pt-4 col-sm-12 col-md-6">
-                <TitleWithEdit :title="spPowers.title" />
+                <TitleWithEdit :title="spPowers.title" :id_for_modal_selector="'#SpecialPowersModal'" />
+                <EditSpPowersForm :title="spPowers.title" :form_id="'SpecialPowersModal'" :ref_levels="spPowers.powers"
+                    :character_id="character_id" @UpdatePowers="ReloadSpells" />
+
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(power, index) in spPowers.powers">
                         <SpellCharge :title="power.name" :charges="power.charges" :key="index"
