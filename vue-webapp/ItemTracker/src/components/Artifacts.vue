@@ -8,7 +8,7 @@ export default {
         descr: String,
         charges: Array
     },
-    emits: ["CheckBoxClick", "restoreAll"],
+    emits: ["CheckBoxClick", "restoreAll", "remove"],
     methods: {
         onCheckBoxClick(event) {
             this.$emit('CheckBoxClick', event.target.id, event.target.checked);
@@ -25,6 +25,9 @@ export default {
         },
         restoreAll(event) {
             this.$emit('restoreAll');
+        },
+        remove(event) {
+            this.$emit('remove');
         }
     }
 }
@@ -45,6 +48,9 @@ export default {
                         </button> -->
                 <button type="button" class="btn btn-success btn-sm" @click="restoreAll">
                     Restore All
+                </button>
+                <button @click="remove" type="button" class="btn btn-danger btn-sm" style="width: 40px">
+                    <i class="bi bi-trash3"></i>
                 </button>
             </div>
         </div>
