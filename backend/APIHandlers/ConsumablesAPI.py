@@ -38,12 +38,12 @@ def consumable_create():
 #         return { "id": art.id, "name": art.name, "charges": art.charges, "used_charges": art.used_charges, "descr": art.descr }
 #     return consumable_get_impl(id)
 
-# @app.route('/api/consumables/<int:id>/set', methods=['POST'])
-# def consumable_set(id):
-#     @ExeptionHandler.abort_on_failure()
-#     def consumable_set_impl(id):
-#         api_log("Set request for character " + str(id))
-#         edited_art = Artifact(request.json["name"], request.json["charges"], request.json["used_charges"], request.json["descr"], id)
-#         edited_art.update()
-#         return { }
-#     return consumable_set_impl(id)
+@app.route('/api/consumables/<int:id>/set', methods=['POST'])
+def consumable_set(id):
+    @ExeptionHandler.abort_on_failure()
+    def consumable_set_impl(id):
+        api_log("Set Consumable request for character " + str(id))
+        edited_art = Consumable(request.json["name"], request.json["descr"], request.json["amount"], id)
+        edited_art.update()
+        return { }
+    return consumable_set_impl(id)

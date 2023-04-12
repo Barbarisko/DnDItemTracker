@@ -177,6 +177,7 @@ export default {
 
             this.spPowers.powers[power_id].charges[charge_id] = res ? checked : !checked;
         },
+
         async restoreAllSPs(power_id) {
 
             var power = this.spPowers.powers[power_id];
@@ -194,12 +195,26 @@ export default {
         },
 
         //Consumables
-        changeConsumableAmount(consumable_id, addition) {
-            this.consumables[consumable_id].amount += addition;
+        async changeConsumableAmount(consumable_id, addition) {
+            var cons = this.consumables[consumable_id];
+            var res = await consumable_api.set(cons.id, cons.name, cons.amount + addition, cons.descr);
+            if (res)
+                this.consumables[consumable_id].amount += addition;
         },
 
-        addConsumable(obj) {
-            this.consumables.push(obj)
+        async addConsumable(obj) {
+            var item = {
+                name: obj.name,
+                descr: obj.descr,
+                amount: obj.amount,
+                character_id: this.character_id
+            }
+            var res = await consumable_api.create(obj.name, obj.amount, obj.descr, this.character_id);
+            if (res.status)
+            {
+                item.id = res.new_id;
+                this.consumables.push(item);
+            }
         },
 
         //Artifacts
