@@ -8,7 +8,8 @@ export default {
         return {
             registerMode: false,
             username: "",
-            password: ""
+            password: "",
+            repeatPassword: ""
         }
     },
     methods: {
@@ -42,6 +43,14 @@ export default {
 
                 return;
             }
+        }
+    },
+    computed: {
+        canLogin()
+        {
+            return this.username != "" && this.password != "" && (
+                this.registerMode ? this.password == this.repeatPassword : true
+            )
         }
     }
 }
@@ -82,7 +91,7 @@ export default {
                     <div class="input-group ps-4 pe-4 mt-2">
                         <span class="input-group-text" style="width: 42px;">*</span>
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Password"
+                            <input type="password" class="form-control" id="floatingInputGroup1" placeholder="Password"
                                 v-model="password">
                             <label for="floatingInputGroup1">Password</label>
                         </div>
@@ -91,8 +100,8 @@ export default {
                     <div v-if="registerMode" class="input-group ps-4 pe-4 mt-2">
                         <span class="input-group-text" style="width: 42px;">*</span>
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Password">
-                            <label for="floatingInputGroup1">Repeate Password</label>
+                            <input type="password" v-model="repeatPassword" class="form-control" id="floatingInputGroup1" placeholder="Password">
+                            <label for="floatingInputGroup1">Repeat Password</label>
                         </div>
                     </div>
 
@@ -101,6 +110,7 @@ export default {
             <div class="row justify-content-center mt-4">
                 <div class="col-4 mt-4 position-relative">
                     <button type="button" class="btn btn-primary position-absolute start-50 translate-middle fs-4"
+                        :disabled="!canLogin"
                         style="width: 200px;" @click="onGo">
                         Go!
                     </button>
