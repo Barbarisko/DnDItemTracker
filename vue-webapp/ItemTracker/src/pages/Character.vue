@@ -263,26 +263,46 @@ export default {
         },
 
         //Backpacks
-        changeBackpackItemAmount(item_id, addition) {
-            this.bPItems[item_id].amount += addition;
+        async changeBackpackItemAmount(item_id, addition) {
+            var item = this.bPItems[item_id];
+            var res = await backpack_api.set(item.id, item.name, item.amount + addition, item.descr);
+            if (res)
+                this.bPItems[item_id].amount += addition;
         },
 
         deleteBackpackItem(item_id) {
             this.bPItems.splice(item_id, 1);
         },
 
-        duplicateBackpackItem(item_id) {
+        async duplicateBackpackItem(item_id) {
             var new_item = {
                 name: this.bPItems[item_id].name,
                 descr: this.bPItems[item_id].descr,
                 amount: this.bPItems[item_id].amount
             }
 
-            this.bPItems.push(new_item);
+            var res = await backpack_api.create(new_item.name, new_item.amount, new_item.descr, this.character_id);
+            if (res.status)
+            {
+                new_item.id = res.new_id;
+                this.bPItems.push(new_item)
+            }
         },
 
-        addBackpackItem(obj) {
-            this.bPItems.push(obj)
+        async addBackpackItem(obj) {
+            var item = {
+                name: obj.name,
+                descr: obj.descr,
+                amount: obj.amount,
+                character_id: this.character_id
+            }
+            debugger
+            var res = await backpack_api.create(obj.name, obj.amount, obj.descr, this.character_id);
+            if (res.status)
+            {
+                item.id = res.new_id;
+                this.bPItems.push(item)
+            }
         }
     },
     mounted() {
