@@ -159,8 +159,8 @@ export default {
         },
 
         async ReloadSpecialPowers() {
-            this.spellSlots.levels = []
-            spell_api.get_all_special_powers(this.character_id)
+            this.spPowers.powers = []
+            sp_api.get_all_special_powers(this.character_id)
                 .then(data => this.spPowers.powers = data)
         },
 
@@ -254,10 +254,10 @@ export default {
             var item = {
                 name: obj.name,
                 descr: obj.descr,
-                charges: obj.charges,
+                charges: Array(obj.charges).fill(false),
                 character_id: this.character_id
             }
-            var res = await artifact_api.create(obj.name, obj.charges, obj.descr, this.character_id);
+            var res = await artifact_api.create(obj.name, obj.charges, obj.descr, 0, this.character_id);
             if (res.status)
                 this.artifacts.push(item);
         },
@@ -336,8 +336,8 @@ export default {
 
             <div class="pt-4 col-sm-12 col-md-6">
                 <TitleWithEdit :title="spPowers.title" :id_for_modal_selector="'#SpecialPowersModal'" />
-                <EditSpPowersForm :title="spPowers.title" :form_id="'SpecialPowersModal'" :ref_levels="spPowers.powers"
-                    :character_id="character_id" @UpdatePowers="ReloadSpells" />
+                <EditSpPowersForm :title="spPowers.title" :form_id="'SpecialPowersModal'" :ref_powers="spPowers.powers"
+                    :character_id="character_id" @UpdatePowers="ReloadSpecialPowers" />
 
                 <ul class="pt-2 list-group">
                     <li class="list-group-item" v-for="(power, index) in spPowers.powers">

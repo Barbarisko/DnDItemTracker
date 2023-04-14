@@ -30,18 +30,19 @@ var artifact_api = {
         return artifacts;
     },
 
-    async create(name, charges, descr, character_id) {
+    async create(name, charges, descr, used_charges, character_id) {
         var result = {
             status: false,
             new_id: -1
         }
+        debugger
         await fetch(`/api/artifacts/add`, {
             method: 'POST',
             body: JSON.stringify(
                 {
                     name: name,
                     charges: charges,
-                    used_charges: 0,
+                    used_charges: used_charges,
                     descr: descr ? descr : "",
                     character_id: character_id
                 }

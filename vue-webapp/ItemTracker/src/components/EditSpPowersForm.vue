@@ -6,7 +6,7 @@ export default {
     props: {
         title: String,
         form_id: String,
-        ref_powers: Object,
+        ref_powers: Array,
         character_id: Number
     },
     emits: ["UpdatePowers"],
@@ -38,16 +38,17 @@ export default {
 
             var future_list = []
             // delete removed levels
+            debugger
             const delete_list = this.ref_powers.filter((ref_element) => !this.powers.some((element) => element.id === ref_element.id));
             delete_list.forEach(el => future_list.push(sp_api.delete(el.id)))
 
             // update existing 
             const update_list = this.powers.filter((element) => element.id != -1);
-            update_list.forEach(el => future_list.push(sp_api.set(el.id, el.level, el.charges, el.used_charges)))
+            update_list.forEach(el => future_list.push(sp_api.set(el.id, el.name, el.charges, el.used_charges)))
 
             // add new
             const add_list = this.powers.filter((element) => element.id == -1);
-            add_list.forEach(el => future_list.push(sp_api.create(el.level, el.charges, el.used_charges, this.character_id)))
+            add_list.forEach(el => future_list.push(sp_api.create(el.name, el.charges, el.used_charges, this.character_id)))
 
             for (var i = 0; i < future_list.length; i++) {
                 await future_list[i];
@@ -60,9 +61,9 @@ export default {
         }
     },
     watch: {
-        ref_levels(newLevels, oldLevels) {
+        ref_powers(newPowers, oldPowers) {
             this.levels = []
-            newLevels.forEach(el => {
+            newPowers.forEach(el => {
                 this.powers.push({
                     id: el.id,
                     name: el.name,

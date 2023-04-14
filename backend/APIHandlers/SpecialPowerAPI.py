@@ -47,3 +47,13 @@ def special_power_set(id):
         edited_art.update()
         return { }
     return special_power_set_impl(id)
+
+@app.route('/api/special_powers/<int:id>/delete', methods=['DELETE'])
+def special_power_delete(id):
+    @ExeptionHandler.abort_on_failure()
+    def special_power_delete_impl(id):
+        api_log("Delete request for spell slot" + str(id))
+        edited_art = SpecialPower.from_id(id)
+        edited_art.delete()
+        return { }
+    return special_power_delete_impl(id)
