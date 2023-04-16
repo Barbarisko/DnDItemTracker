@@ -9,7 +9,9 @@ export default {
             registerMode: false,
             username: "",
             password: "",
-            repeatPassword: ""
+            repeatPassword: "",
+            showHint: false,
+            hintMessage: "",
         }
     },
     methods: {
@@ -22,32 +24,35 @@ export default {
             }
         },
         async onGo() {
+            this.showHint = false;
+            this.hintMessage = "Undefined Error occured";
             if (this.username == "" || this.password == "")
-                //give some error
+            //give some error
                 return;
+            this.username.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 
             var pwd_hash = await utils.sha256(this.password)
 
             var res = await (this.registerMode ? user_api.create(this.username, pwd_hash) : user_api.login(this.username, pwd_hash));
-            
+
             if (res.status) {
-                this.$emit('setUser', 
-                {
-                    id: res.new_id,
-                    logged_in: true,
-                    name: this.username
-                })
+                this.$emit('setUser',
+                    {
+                        id: res.new_id,
+                        logged_in: true,
+                        name: this.username
+                    })
             }
             else {
                 //give some error
-
+                this.showHint = true;
+                this.hintMessage = res.message.length > 0 ? res.message : this.hintMessage;
                 return;
             }
         }
     },
     computed: {
-        canLogin()
-        {
+        canLogin() {
             return this.username != "" && this.password != "" && (
                 this.registerMode ? this.password == this.repeatPassword : true
             )
@@ -61,7 +66,8 @@ export default {
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-sm-12 col-md-8 col-lg-6">
-                    <div class="btn-group ps-4 pe-4" style="width: 100%;" role="group" aria-label="Basic radio toggle button group">
+                    <div class="btn-group ps-4 pe-4" style="width: 100%;" role="group"
+                        aria-label="Basic radio toggle button group">
                         <input type="radio" class="btn-check" name="btnradio" id="modeLogin" autocomplete="off"
                             @change="onChangeMode" checked>
                         <label class="btn btn-outline-primary fs-4" for="modeLogin">
@@ -100,18 +106,22 @@ export default {
                     <div v-if="registerMode" class="input-group ps-4 pe-4 mt-2">
                         <span class="input-group-text" style="width: 42px;">*</span>
                         <div class="form-floating">
-                            <input type="password" v-model="repeatPassword" class="form-control" id="floatingInputGroup1" placeholder="Password">
+                            <input type="password" v-model="repeatPassword" class="form-control" id="floatingInputGroup1"
+                                placeholder="Password">
                             <label for="floatingInputGroup1">Repeat Password</label>
                         </div>
                     </div>
 
+                    <div v-if="showHint" class="ps-4 pe-4 mt-3 text-center text-danger">
+                        {{ hintMessage }}
+                    </div>
+
                 </div>
             </div>
-            <div class="row justify-content-center mt-4">
+            <div class="row justify-content-center mt-3">
                 <div class="col-4 mt-4 position-relative">
                     <button type="button" class="btn btn-primary position-absolute start-50 translate-middle fs-4"
-                        :disabled="!canLogin"
-                        style="width: 200px;" @click="onGo">
+                        :disabled="!canLogin" style="width: 200px;" @click="onGo">
                         Go!
                     </button>
                 </div>

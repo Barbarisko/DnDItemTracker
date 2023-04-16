@@ -3,6 +3,7 @@ var user_api = {
   async create(username, password_hash) {
     var result = {
       status: false,
+      message: "",
       new_id: -1
     }
     await fetch(`/api/user/create`, {
@@ -18,12 +19,12 @@ var user_api = {
         'Content-type': 'application/json; charset=UTF-8'
       }
     })
-      .then(response => {
-        // indicates whether the response is successful (status code 200-299) or not
-        if (!response.ok) {
-          throw new Error(`Request failed with status ${reponse.status}`)
+      .then(responce => {
+        // indicates whether the responce is successful (status code 200-299) or not
+        if (!responce.ok) {
+          throw new Error(`Request failed with status ${responce.status}`)
         }
-        return response.json()
+        return responce.json()
       })
       .then(data => {
         result.status = true;
@@ -36,6 +37,7 @@ var user_api = {
   async login(username, password_hash) {
     var result = {
       status: false,
+      message: "",
       new_id: -1
     }
     await fetch(`/api/user/login`, {
@@ -50,18 +52,26 @@ var user_api = {
         'Content-type': 'application/json; charset=UTF-8'
       }
     })
-      .then(response => {
-        // indicates whether the response is successful (status code 200-299) or not
-        if (!response.ok) {
-          throw new Error(`Request failed with status ${reponse.status}`)
+      .then(responce => {
+        debugger
+        // indicates whether the responce is successful (status code 200-299) or not
+        if (!responce.ok) {
+          if(responce.status == 500)
+          {
+            result.message = "Invalid username or password. "
+          }
+          throw new Error(`Request failed with status ${responce.status}`)
         }
-        return response.json()
+        return responce.json()
       })
       .then(data => {
         result.status = true;
         result.new_id = data['id'];
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        console.log(error); 
+        debugger
+      })
       return result
   }
 

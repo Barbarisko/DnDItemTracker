@@ -8,12 +8,12 @@ var character_api = {
                 'Content-type': 'application/json; charset=UTF-8'
             }
         })
-            .then(response => {
-                // indicates whether the response is successful (status code 200-299) or not
-                if (!response.ok) {
-                    throw new Error(`Request failed with status ${reponse.status}`)
+            .then(responce => {
+                // indicates whether the responce is successful (status code 200-299) or not
+                if (!responce.ok) {
+                    throw new Error(`Request failed with status ${responce.status}`)
                 }
-                return response.json()
+                return responce.json()
             })
             .then(data => {
                 data.forEach(element => {
@@ -50,12 +50,12 @@ var character_api = {
                 'Content-type': 'application/json; charset=UTF-8'
             }
         })
-            .then(response => {
-                // indicates whether the response is successful (status code 200-299) or not
-                if (!response.ok) {
-                    throw new Error(`Request failed with status ${reponse.status}`)
+            .then(responce => {
+                // indicates whether the responce is successful (status code 200-299) or not
+                if (!responce.ok) {
+                    throw new Error(`Request failed with status ${responce.status}`)
                 }
-                return response.json()
+                return responce.json()
             })
             .then(data => {
                 result.status = true;

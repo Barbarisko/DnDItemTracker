@@ -15,7 +15,7 @@ def user_login():
         user = User.from_username(request.json["username"])
         if user.password_hash == request.json["password_hash"]:
             return { "id": user.id }
-        abort(400)
+        abort(500)
     return user_login_impl()
 
 
