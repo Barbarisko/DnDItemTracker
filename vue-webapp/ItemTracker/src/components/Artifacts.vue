@@ -47,7 +47,7 @@ export default {
                             Restore
                         </button> -->
                 <button type="button" class="btn btn-success btn-sm" @click="restoreAll">
-                    Restore All
+                    Restore
                 </button>
                 <button @click="remove" type="button" class="btn btn-danger btn-sm" style="width: 40px">
                     <i class="bi bi-trash3"></i>
