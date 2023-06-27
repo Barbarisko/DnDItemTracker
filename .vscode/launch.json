@@ -24,6 +24,14 @@
                 "DB_PORT": "5432",
                 "DB_PWD": "lena_help"
             }
+        },
+        {
+            "name": "Generate flask api endpoint",
+            "type": "python",
+            "request": "launch",
+            "program": "api_helper/api_generator.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
         }
     ]
 }
