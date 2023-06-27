@@ -92,6 +92,30 @@ var artifact_api = {
                 console.log(error)
                 return false
             })
+    },
+
+    async delete(artifact_id) {
+        return await fetch(`/api/artifacts/${artifact_id}/delete`, {
+            method: 'DELETE',
+            body: JSON.stringify(
+                {
+                }
+            ),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
+            .then(responce => {
+                // indicates whether the responce is successful (status code 200-299) or not
+                if (!responce.ok) {
+                    throw new Error(`Request failed with status ${responce.status}`)
+                }
+                return true
+            })
+            .catch(error => {
+                console.log(error)
+                return false
+            })
     }
 }
 

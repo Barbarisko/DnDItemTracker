@@ -13,6 +13,8 @@ class Item(Object):
     INSERT_CHARACTER_ITEM_STR = "INSERT INTO CHAR_ITEMS (CHARACTER_ID, ITEM_ID) VALUES({}, {});"
 
     UPDATE_ITEM_STR = "UPDATE ITEMS SET (NAME, DESCRIPTION, AMOUNT) = ('{}', '{}', {}) WHERE ITEMS.ID = {};"
+    
+    DELETE_CHARACTER_ITEM_STR = "DELETE FROM CHAR_ITEMS WHERE ITEM_ID = {};"
     DELETE_ITEM_STR = "DELETE FROM ITEMS WHERE ID = {};"
 
     def __init__(self, name, descr, amount, id = INVALID_ID):
@@ -66,5 +68,5 @@ class Item(Object):
     def delete(self):
         with ConnectionManager() as manager:
             with manager.get_cursor() as cur:
+                cur.execute(Item.DELETE_CHARACTER_ITEM_STR.format(self.id))
                 cur.execute(Item.DELETE_ITEM_STR.format(self.id))
-    

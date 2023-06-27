@@ -1,5 +1,5 @@
 var backpack_api = {
-    async get_all_items(character_id) { 
+    async get_all_items(character_id) {
         var items = []
         await fetch(`/api/items/get_all/${character_id}`, {
             method: 'GET',
@@ -7,29 +7,29 @@ var backpack_api = {
                 'Content-type': 'application/json; charset=UTF-8'
             }
         })
-        .then(responce => {
-            // indicates whether the responce is successful (status code 200-299) or not
-            if (!responce.ok) {
-                throw new Error(`Request failed with status ${responce.status}`)
-            }
-            return responce.json()
-        })
-        .then(data => {
-            data.forEach(element => {
-                items.push(
-                    {
-                        id: element["id"],
-                        name: element["name"],
-                        descr: element["descr"],
-                        amount: element["amount"]
-                    }
-                )
-            });
-        })
-        .catch(error => console.log(error))
+            .then(responce => {
+                // indicates whether the responce is successful (status code 200-299) or not
+                if (!responce.ok) {
+                    throw new Error(`Request failed with status ${responce.status}`)
+                }
+                return responce.json()
+            })
+            .then(data => {
+                data.forEach(element => {
+                    items.push(
+                        {
+                            id: element["id"],
+                            name: element["name"],
+                            descr: element["descr"],
+                            amount: element["amount"]
+                        }
+                    )
+                });
+            })
+            .catch(error => console.log(error))
         return items;
     },
-    
+
     async create(name, amount, descr, character_id) {
         var result = {
             status: false,
@@ -89,7 +89,31 @@ var backpack_api = {
                 console.log(error)
                 return false
             })
+    },
+
+    async delete(item_id) {
+        return await fetch(`/api/items/${item_id}/delete`, {
+            method: 'DELETE',
+            body: JSON.stringify(
+                {
+                }
+            ),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
+            .then(responce => {
+                // indicates whether the responce is successful (status code 200-299) or not
+                if (!responce.ok) {
+                    throw new Error(`Request failed with status ${responce.status}`)
+                }
+                return true
+            })
+            .catch(error => {
+                console.log(error)
+                return false
+            })
     }
-  }
-  
-  export default backpack_api
+}
+
+export default backpack_api

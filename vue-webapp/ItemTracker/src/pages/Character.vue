@@ -217,6 +217,16 @@ export default {
             }
         },
 
+        async deleteConsumable(consumable_id) {
+            const cons = this.consumables.splice(consumable_id, 1);
+
+            var res = await consumable_api.delete(cons.id);
+            if (!res.status)
+            {
+                this.consumables.push(cons);
+            }
+        },
+
         //Artifacts
         async onUseArtifactCharge(artifact_id, charge_id, checked) {
             this.artifacts[artifact_id].charges[charge_id] = checked;
@@ -262,6 +272,16 @@ export default {
                 this.artifacts.push(item);
         },
 
+        async deleteArtifact(artifact_id) {
+            const item = this.artifacts.splice(artifact_id, 1);
+
+            var res = await artifact_api.delete(item.id);
+            if (!res.status)
+            {
+                this.artifacts.push(item);
+            }
+        },
+
         //Backpacks
         async changeBackpackItemAmount(item_id, addition) {
             var item = this.bPItems[item_id];
@@ -270,8 +290,14 @@ export default {
                 this.bPItems[item_id].amount += addition;
         },
 
-        deleteBackpackItem(item_id) {
-            this.bPItems.splice(item_id, 1);
+        async deleteBackpackItem(item_id) {
+            const item = this.bPItems.splice(item_id, 1);
+
+            var res = await backpack_api.delete(item.id);
+            if (!res.status)
+            {
+                this.bPItems.push(item);
+            }
         },
 
         async duplicateBackpackItem(item_id) {
@@ -353,7 +379,8 @@ export default {
                 <ul class="pt-2 list-group">
                     <li v-for="(item, index) in consumables" class="list-group-item">
                         <Consumable :name="item.name" :descr="item.descr" :amount="item.amount"
-                            @ChangeAmount="(addition) => changeConsumableAmount(index, addition)" />
+                            @ChangeAmount="(addition) => changeConsumableAmount(index, addition)" 
+                            @Delete="() => deleteArtifact(index)"/>
                     </li>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal"
@@ -372,7 +399,8 @@ export default {
                     <div v-for="(artif, index) in artifacts" class="list-group-item">
                         <Artifacts :name="artif.name" :descr="artif.descr" :charges="artif.charges"
                             @CheckBoxClick="(id, checked) => onUseArtifactCharge(index, id, checked)"
-                            @restoreAll="() => restoreAllArtifactCharges(index)" />
+                            @restoreAll="() => restoreAllArtifactCharges(index)" 
+                            @remove="() => deleteArtifact(index)"/>
                     </div>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal"

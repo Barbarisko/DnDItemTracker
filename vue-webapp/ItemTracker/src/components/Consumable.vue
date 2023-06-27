@@ -6,7 +6,7 @@ export default {
         descr: String,
         amount: Number
     },
-    emits: ["ChangeAmount"],
+    emits: ["ChangeAmount", "Delete"],
     methods: {
         use(event) {
             if(this.amount <= 0)
@@ -17,7 +17,7 @@ export default {
             this.$emit('ChangeAmount', 1)
         },
         remove() {
-            
+            this.$emit('Delete') 
         }
     }
 }

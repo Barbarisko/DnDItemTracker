@@ -47,3 +47,13 @@ def artifact_set(id):
         edited_art.update()
         return { }
     return artifact_set_impl(id)
+
+@app.route('/api/artifacts/<int:id>/delete', methods=['DELETE'])
+def artifacts_delete(id):
+    @ExeptionHandler.abort_on_failure()
+    def artifacts_delete_impl(id):
+        api_log("Delete request for artifact " + str(id))
+        edited_art = Artifact.from_id(id)
+        edited_art.delete()
+        return { }
+    return artifacts_delete_impl(id)

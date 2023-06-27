@@ -13,6 +13,8 @@ class Consumable(Object):
     INSERT_CHARACTER_CONSUMABLE_STR = "INSERT INTO CHAR_CONS (CHARACTER_ID, CONSUMABLE_ID) VALUES({}, {});"
 
     UPDATE_CONSUMABLE_STR = "UPDATE CONSUMABLES SET (NAME, DESCRIPTION, AMOUNT) = ('{}', '{}', {}) WHERE CONSUMABLES.ID = {};"
+    
+    DELETE_CHARACTER_CONSUMABLE_STR = "DELETE FROM CHAR_CONS WHERE CONSUMABLE_ID = {};"
     DELETE_CONSUMABLE_STR = "DELETE FROM CONSUMABLES WHERE ID = {};"
 
     def __init__(self, name, descr, amount, id = INVALID_ID):
@@ -66,5 +68,6 @@ class Consumable(Object):
     def delete(self):
         with ConnectionManager() as manager:
             with manager.get_cursor() as cur:
+                cur.execute(Consumable.DELETE_CHARACTER_CONSUMABLE_STR.format(self.id))
                 cur.execute(Consumable.DELETE_CONSUMABLE_STR.format(self.id))
     

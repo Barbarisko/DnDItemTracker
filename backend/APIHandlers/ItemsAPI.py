@@ -47,3 +47,14 @@ def item_set(id):
         edited_art.update()
         return { }
     return item_set_impl(id)
+
+
+@app.route('/api/items/<int:id>/delete', methods=['DELETE'])
+def item_delete(id):
+    @ExeptionHandler.abort_on_failure()
+    def item_delete_impl(id):
+        api_log("Delete request for backpack item " + str(id))
+        edited = Item.from_id(id)
+        edited.delete()
+        return { }
+    return item_delete_impl(id)

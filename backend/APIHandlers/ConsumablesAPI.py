@@ -47,3 +47,13 @@ def consumable_set(id):
         edited_art.update()
         return { }
     return consumable_set_impl(id)
+
+@app.route('/api/consumables/<int:id>/delete', methods=['DELETE'])
+def consumable_delete(id):
+    @ExeptionHandler.abort_on_failure()
+    def consumable_delete_impl(id):
+        api_log("Delete request for consumable " + str(id))
+        edited = Consumable.from_id(id)
+        edited.delete()
+        return { }
+    return consumable_delete_impl(id)

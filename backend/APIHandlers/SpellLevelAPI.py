@@ -51,9 +51,9 @@ def spell_level_set(id):
 @app.route('/api/spell_levels/<int:id>/delete', methods=['DELETE'])
 def spell_level_delete(id):
     @ExeptionHandler.abort_on_failure()
-    def spell_level_set_impl(id):
+    def spell_level_delete(id):
         api_log("Set request for spell level " + str(id))
         edited_art = SpellLevel.from_id(id)
         edited_art.delete()
         return { }
-    return spell_level_set_impl(id)
+    return spell_level_delete(id)

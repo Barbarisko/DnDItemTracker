@@ -13,6 +13,8 @@ class Artifact(Object):
     INSERT_CHARACTER_ARTIFACT_STR = "INSERT INTO CHAR_ARTIFACTS (CHARACTER_ID, ARTIFACT_ID) VALUES({}, {});"
 
     UPDATE_ARTIFACT_STR = "UPDATE ARTIFACTS SET (NAME, CHARGES, USED_CHARGES, DESCRIPTION) = ('{}', {}, {}, '{}') WHERE ARTIFACTS.ID = {};"
+
+    DELETE_CHARACTER_ARTIFACT_STR = "DELETE FROM CHAR_ARTIFACTS WHERE ARTIFACT_ID = {};"
     DELETE_ARTIFACT_STR = "DELETE FROM ARTIFACTS WHERE ID = {};"
 
     def __init__(self, name, charges, used_charges, descr, id = INVALID_ID):
@@ -69,5 +71,6 @@ class Artifact(Object):
     def delete(self):
         with ConnectionManager() as manager:
             with manager.get_cursor() as cur:
+                cur.execute(Artifact.DELETE_CHARACTER_ARTIFACT_STR.format(self.id))
                 cur.execute(Artifact.DELETE_ARTIFACT_STR.format(self.id))
     
