@@ -294,7 +294,7 @@ export default {
             const item = this.bPItems.splice(item_id, 1);
 
             var res = await backpack_api.delete(item[0].id);
-            if (!res.status)
+            if (!res)
             {
                 this.bPItems.push(item[0]);
             }
