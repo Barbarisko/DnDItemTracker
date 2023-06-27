@@ -221,7 +221,7 @@ export default {
             const cons = this.consumables.splice(consumable_id, 1);
 
             var res = await consumable_api.delete(cons[0].id);
-            if (!res.status)
+            if (!res)
             {
                 this.consumables.push(cons[0]);
             }
@@ -276,7 +276,7 @@ export default {
             const item = this.artifacts.splice(artifact_id, 1);
 
             var res = await artifact_api.delete(item[0].id);
-            if (!res.status)
+            if (!res)
             {
                 this.artifacts.push(item[0]);
             }
