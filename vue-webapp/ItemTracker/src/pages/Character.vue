@@ -220,10 +220,10 @@ export default {
         async deleteConsumable(consumable_id) {
             const cons = this.consumables.splice(consumable_id, 1);
 
-            var res = await consumable_api.delete(cons.id);
+            var res = await consumable_api.delete(cons[0].id);
             if (!res.status)
             {
-                this.consumables.push(cons);
+                this.consumables.push(cons[0]);
             }
         },
 
@@ -275,10 +275,10 @@ export default {
         async deleteArtifact(artifact_id) {
             const item = this.artifacts.splice(artifact_id, 1);
 
-            var res = await artifact_api.delete(item.id);
+            var res = await artifact_api.delete(item[0].id);
             if (!res.status)
             {
-                this.artifacts.push(item);
+                this.artifacts.push(item[0]);
             }
         },
 
@@ -293,10 +293,10 @@ export default {
         async deleteBackpackItem(item_id) {
             const item = this.bPItems.splice(item_id, 1);
 
-            var res = await backpack_api.delete(item.id);
+            var res = await backpack_api.delete(item[0].id);
             if (!res.status)
             {
-                this.bPItems.push(item);
+                this.bPItems.push(item[0]);
             }
         },
 
