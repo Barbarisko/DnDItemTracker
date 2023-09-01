@@ -380,7 +380,7 @@ export default {
                     <li v-for="(item, index) in consumables" class="list-group-item">
                         <Consumable :name="item.name" :descr="item.descr" :amount="item.amount"
                             @ChangeAmount="(addition) => changeConsumableAmount(index, addition)" 
-                            @Delete="() => deleteArtifact(index)"/>
+                            @Delete="() => deleteConsumable(index)"/>
                     </li>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal"
