@@ -1,4 +1,3 @@
-
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);
@@ -8,8 +7,8 @@ body {
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
   background-color: var(--bs-body-bg);
-  -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: transparent
+  // -webkit-text-size-adjust: 100%;
+  // -webkit-tap-highlight-color: transparent
 }
 
 .big-checkbox {
@@ -17,3 +16,4 @@ body {
   height: 28px;
 }
 
+@import '../node_modules/bootstrap/scss/bootstrap';
