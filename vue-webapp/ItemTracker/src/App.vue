@@ -1,63 +1,41 @@
 <script lang="ts">
+import { useUserStore } from './stores/user-session'
+
+import * as SESSION from './logic/login'
 
 export default {
     data() {
+        return {
+            userSession: useUserStore()
+        }
     },
     computed: {
         user_character_title() {
-            if (!this.user.logged_in)
+            if (!this.userSession.loggedIn)
                 return "";
 
-            if (this.user.selected_character == "")
-                return this.user.name;
+            if (this.userSession.selectedCharacter.name == "")
+                return this.userSession.name;
 
-            return this.user.name + " and hero: " + this.user.selected_character.name;
+            return this.userSession.name + " and hero: " + this.userSession.selectedCharacter.name;
         }
     },
     methods: {
         logOut() {
-            this.user = {
-                id: -1,
-                logged_in: false,
-                name: "",
-                selected_character:
-                {
-                    id: -1,
-                    name: ""
-                }
-            }
-            this.delete_cookie("user_id");
+            SESSION.logOut();
         },
-        getUserIdCookie() {
-            return document.cookie.split(';').filter((item) => item.trim().startsWith('user_id='));
-        },
-        delete_cookie(name, path, domain) {
-            document.cookie = name + "=" +
-                ((path) ? ";path=" + path : "") +
-                ((domain) ? ";domain=" + domain : "") +
-                ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
-        },
-        logIn(user_data) {
-            var prev_login = this.getUserIdCookie();
 
-            if (prev_login.length) {
-                prev_login.forEach(element => {
-                    this.delete_cookie("user_id");
-                });
-            }
-            document.cookie = `user_id=${user_data.id}; ;max-age=max-age-in-seconds=${60 * 60 * 1};SameSite=Lax;`;
+        // logIn(user_data) {
+        //     SESSION.logIn({
+        //         id: user_data.id,
+        //         loggedIn: user_data.logged_in,
+        //         name: user_data.name,
+        //         selectedCharacter: { id: -1, name: "" }
+        //     });
+        // }
+    },
+    mounted() {
 
-            this.user.id = user_data.id;
-            this.user.logged_in = user_data.logged_in;
-            this.user.name = user_data.name;
-
-            window.location.hash = "#/home";
-        },
-        setCharacter(character) {
-            this.user.selected_character.id = character.id;
-            this.user.selected_character.name = character.name;
-            window.location.hash = "#/character";
-        }
     }
 }
 </script>
@@ -90,17 +68,14 @@ export default {
                         {{ user_character_title }}
                     </span>
 
-                    <a href="/login" v-if="!user.logged_in" class="btn btn-outline-success ms-3" tabindex="-1"
+                    <a href="/login" v-if="!userSession.loggedIn" class="btn btn-outline-success ms-3" tabindex="-1"
                         role="button" @click="logOut" style="width: 90px;">Log In</a>
-                    <a href="/login" v-if="user.logged_in" class="btn btn-outline-danger ms-3" tabindex="-1" role="button"
-                        @click="logOut" style="width: 90px;">Log Out</a>
+                    <a href="/login" v-if="userSession.loggedIn" class="btn btn-outline-danger ms-3" tabindex="-1"
+                        role="button" @click="logOut" style="width: 90px;">Log Out</a>
 
                 </div>
             </div>
         </div>
     </nav>
-    <!-- 
-    <component :is="currentView" :user_id="user.id" :character_id="user.selected_character.id"
-        v-on:setCharacter="setCharacter" v-on:setUser="logIn" /> -->
     <RouterView />
 </template>

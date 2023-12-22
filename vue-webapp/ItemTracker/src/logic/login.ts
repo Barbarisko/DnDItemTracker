@@ -2,7 +2,6 @@ import type { Character } from '@/models/character';
 import { useUserStore } from '../stores/user-session'
 import type { User } from '@/models/user';
 
-const userSession = useUserStore();
 
 function delete_cookie(name: string, path?: string, domain?: string) {
     document.cookie = name + "=" +
@@ -16,6 +15,8 @@ function getUserIdCookie() {
 }
 
 export function logOut() {
+    const userSession = useUserStore();
+
     userSession.setLoggedOut();
     delete_cookie("user_id");
 }
@@ -29,6 +30,7 @@ export function logIn(user_data: User) {
         });
     }
     document.cookie = `user_id=${user_data.id}; ;max-age=max-age-in-seconds=${60 * 60 * 1};SameSite=Lax;`;
+    const userSession = useUserStore();
 
     userSession.setLoggedIn(user_data.name, user_data.id)
 }

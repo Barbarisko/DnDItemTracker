@@ -1,23 +1,18 @@
 <script>
 import Title from '@/components/Title.vue'
-
-
 import utils from '@/utils'
-
 import character_api from '@/apis/character_api'
 import user_api from '@/apis/user_api'
+
+import { useUserStore } from '../stores/user-session'
 
 export default {
     components: {
         Title,
     },
-    emits: ["setCharacter"],
-    props:
-    {
-        user_id: Number
-    },
     data() {
         return {
+            userSession: useUserStore(),
             characters: [
                 {
                     id: 1,
@@ -38,25 +33,23 @@ export default {
                 level: this.new_level,
                 class_name: this.new_class,
             }
-            var res = await character_api.create(this.new_name, this.new_level, this.new_class, this.user_id);
-            if (res.status)
-            {
+            var res = await character_api.create(this.new_name, this.new_level, this.new_class, this.userSession.id);
+            if (res.status) {
                 item.id = res.new_id;
                 this.characters.push(item);
             }
         },
 
         select(index) {
-            this.$emit('setCharacter',
-                {
-                    id: this.characters[index].id,
-                    name: this.characters[index].name
-                }
-            )
+            debugger
+            this.userSession.setCharacter({
+                id: this.characters[index].id,
+                name: this.characters[index].name
+            });
         }
     },
     mounted() {
-        character_api.get_all_characters(this.user_id).then(data => this.characters = data)
+        character_api.get_all_characters(this.userSession.id).then(data => this.characters = data)
     }
 }
 
@@ -69,9 +62,12 @@ export default {
 
         <ul class="pt-2 list-group">
             <li class="list-group-item" v-for="(ch, index) in characters">
-                <div @click="select(index)">
+                <!-- <div @click="select(index)">
                     {{ ch.name + " " + ch.level + " level " }}
-                </div>
+                </div> -->
+                <router-link to="/character" :tag="button" @click.native="select(index)">
+                    {{ ch.name + " " + ch.level + " level " }}
+                </router-link>
             </li>
             <li class="list-group-item">
                 <div class="row">

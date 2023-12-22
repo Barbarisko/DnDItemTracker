@@ -1,9 +1,9 @@
 <script>
 import user_api from '@/apis/user_api'
 import utils from '@/utils'
+import * as SESSION from '../logic/login'
 
 export default {
-    emits: ["setUser"],
     data() {
         return {
             registerMode: false,
@@ -27,7 +27,7 @@ export default {
             this.showHint = false;
             this.hintMessage = "Undefined Error occured";
             if (this.username == "" || this.password == "")
-            //give some error
+                //give some error
                 return;
             this.username.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 
@@ -36,12 +36,12 @@ export default {
             var res = await (this.registerMode ? user_api.create(this.username, pwd_hash) : user_api.login(this.username, pwd_hash));
 
             if (res.status) {
-                this.$emit('setUser',
-                    {
-                        id: res.new_id,
-                        logged_in: true,
-                        name: this.username
-                    })
+                SESSION.logIn({
+                    id: res.new_id,
+                    logged_in: true,
+                    name: this.username,
+                    selectedCharacter: { id: -1, name: "" }
+                });
             }
             else {
                 //give some error
