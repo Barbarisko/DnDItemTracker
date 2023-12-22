@@ -6,7 +6,7 @@ RUN npm run build
 
 FROM nginx
 COPY --from=build /app/dist /var/www/html/
-COPY --from=build /app/site.conf /etc/nginx/sites-enabled/
+COPY --from=build /app/site.conf /etc/nginx/conf.d/
 
 EXPOSE 80
 CMD ["nginx","-g","daemon off;"]
