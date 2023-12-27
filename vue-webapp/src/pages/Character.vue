@@ -10,6 +10,7 @@ import EditChargesForm from '@/components/bits/EditChargesForm.vue'
 import EditSpPowersForm from '@/components/bits/EditSpPowersForm.vue'
 
 import SpellSlots from '@/components/SpellSlots.vue'
+import SpecialPowers from '@/components/SpecialPowers.vue'
 
 import utils from '@/utils'
 
@@ -34,25 +35,12 @@ export default {
         NewItemForm,
         EditChargesForm,
         EditSpPowersForm,
-        SpellSlots
+        SpellSlots,
+        SpecialPowers
     },
     data() {
         return {
             userSession: useUserStore(),
-            spPowers:
-            {
-                title: 'Special Powers',
-                powers: [
-                    // {
-                    //     name: "Monc Power",
-                    //     charges: [true, false, true, false]
-                    // },
-                    // {
-                    //     name: "Other Power",
-                    //     charges: [true, false, true, false]
-                    // }
-                ]
-            },
             consumables: [
                 // {
                 //     name: "Food",
@@ -112,42 +100,6 @@ export default {
                 roman = (key[+digits.pop() + (i * 10)] || "") + roman;
             var res = Array(+digits.join("") + 1).join("M") + roman;
             return res;
-        },
-
-        //Special Powers
-        async ReloadSpecialPowers() {
-            this.spPowers.powers = []
-            sp_api.get_all_special_powers(this.character_id)
-                .then(data => this.spPowers.powers = data)
-        },
-
-        async onUseSPCharge(power_id, charge_id, checked) {
-            this.spPowers.powers[power_id].charges[charge_id] = checked;
-
-            var power = this.spPowers.powers[power_id];
-            var res = await sp_api.set(
-                power.id,
-                power.name,
-                power.charges.length,
-                utils.calculate_used_charges(power.charges));
-
-            this.spPowers.powers[power_id].charges[charge_id] = res ? checked : !checked;
-        },
-
-        async restoreAllSPs(power_id) {
-
-            var power = this.spPowers.powers[power_id];
-            var res = await sp_api.set(
-                power.id,
-                power.name,
-                power.charges.length,
-                0);
-
-            if (res) {
-                for (var i = 0; i < power.charges.length; i++) {
-                    power.charges[i] = false;
-                }
-            }
         },
 
         //Consumables
@@ -283,7 +235,6 @@ export default {
     },
     mounted() {
         const user_id = this.userSession.selectedCharacter.id;
-        sp_api.get_all_special_powers(user_id).then(data => this.spPowers.powers = data)
         consumable_api.get_all_consumables(user_id).then(data => this.consumables = data)
         artifact_api.get_all_artifacts(user_id).then(data => this.artifacts = data)
         backpack_api.get_all_items(user_id).then(data => this.bPItems = data)
@@ -301,17 +252,7 @@ export default {
             </div>
 
             <div class="pt-4 col-sm-12 col-md-6">
-                <TitleWithEdit :title="spPowers.title" :id_for_modal_selector="'#SpecialPowersModal'" />
-                <EditSpPowersForm :title="spPowers.title" :form_id="'SpecialPowersModal'" :ref_powers="spPowers.powers"
-                    :character_id="character_id" @UpdatePowers="ReloadSpecialPowers" />
-
-                <ul class="pt-2 list-group">
-                    <li class="list-group-item" v-for="(power, index) in spPowers.powers">
-                        <SpellCharge :title="power.name" :charges="power.charges" :key="index"
-                            @CheckBoxClick="(id, checked) => onUseSPCharge(index, id, checked)"
-                            @restoreAll="() => restoreAllSPs(index)" />
-                    </li>
-                </ul>
+                <SpecialPowers :character="this.userSession.selectedCharacter"></SpecialPowers>
             </div>
 
             <div class="pt-4 col-sm-12 col-md-6">
