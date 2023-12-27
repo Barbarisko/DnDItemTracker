@@ -1,12 +1,16 @@
 <script>
-import Title from '@/components/Title.vue'
-import TitleWithEdit from '@/components/TitleWithEdit.vue'
-import SpellCharge from '@/components/SpellCharge.vue'
-import Consumable from '@/components/Consumable.vue'
-import Artifacts from '@/components/Artifacts.vue'
-import BackpackItem from '@/components/BackpackItem.vue'
-import NewItemForm from '@/components/NewItemForm.vue'
-import EditChargesForm from '@/components/EditChargesForm.vue'
+import Title from '@/components/bits/Title.vue'
+import TitleWithEdit from '@/components/bits/TitleWithEdit.vue'
+import SpellCharge from '@/components/bits/SpellCharge.vue'
+import Consumable from '@/components/bits/Consumable.vue'
+import Artifacts from '@/components/bits/Artifacts.vue'
+import BackpackItem from '@/components/bits/BackpackItem.vue'
+import NewItemForm from '@/components/bits/NewItemForm.vue'
+import EditChargesForm from '@/components/bits/EditChargesForm.vue'
+import EditSpPowersForm from '@/components/bits/EditSpPowersForm.vue'
+
+import SpellSlots from '@/components/SpellSlots.vue'
+import SpecialPowers from '@/components/SpecialPowers.vue'
 
 import utils from '@/utils'
 
@@ -17,52 +21,26 @@ import consumable_api from '@/apis/consumable_api'
 import sp_api from '@/apis/sp_api'
 import spell_api from '@/apis/spell_api'
 import user_api from '@/apis/user_api'
-import EditSpPowersForm from '@/components/EditSpPowersForm.vue'
+
+import { useUserStore } from '../stores/user-session'
 
 export default {
     components: {
-    Title,
-    TitleWithEdit,
-    SpellCharge,
-    Consumable,
-    Artifacts,
-    BackpackItem,
-    NewItemForm,
-    EditChargesForm,
-    EditSpPowersForm
-},
-    props: {
-        user_id: Number,
-        character_id: Number,
+        Title,
+        TitleWithEdit,
+        SpellCharge,
+        Consumable,
+        Artifacts,
+        BackpackItem,
+        NewItemForm,
+        EditChargesForm,
+        EditSpPowersForm,
+        SpellSlots,
+        SpecialPowers
     },
     data() {
-
         return {
-
-            spellSlots:
-            {
-                title: 'Spell Slots',
-                levels: [
-                    // {
-                    //     level: 1,
-                    //     charges: [true, true, false]
-                    // }
-                ]
-            },
-            spPowers:
-            {
-                title: 'Special Powers',
-                powers: [
-                    // {
-                    //     name: "Monc Power",
-                    //     charges: [true, false, true, false]
-                    // },
-                    // {
-                    //     name: "Other Power",
-                    //     charges: [true, false, true, false]
-                    // }
-                ]
-            },
+            userSession: useUserStore(),
             consumables: [
                 // {
                 //     name: "Food",
@@ -124,76 +102,6 @@ export default {
             return res;
         },
 
-        //Spells
-        async onUseSpellCharge(level_id, charge_id, checked) {
-            this.spellSlots.levels[level_id].charges[charge_id] = checked;
-            var level = this.spellSlots.levels[level_id];
-            var res = await spell_api.set(
-                level.id,
-                level.level,
-                level.charges.length,
-                utils.calculate_used_charges(level.charges));
-
-            this.spellSlots.levels[level_id].charges[charge_id] = res ? checked : !checked;
-        },
-
-        async restoreAllSpellCharges(level_id) {
-            var level = this.spellSlots.levels[level_id];
-            var res = await spell_api.set(
-                level.id,
-                level.level,
-                level.charges.length,
-                0);
-
-            if (res) {
-                for (var i = 0; i < level.charges.length; i++) {
-                    level.charges[i] = false;
-                }
-            }
-        },
-
-        async ReloadSpells() {
-            this.spellSlots.levels = []
-            spell_api.get_all_spell_levels(this.character_id)
-                .then(data => this.spellSlots.levels = data)
-        },
-
-        async ReloadSpecialPowers() {
-            this.spPowers.powers = []
-            sp_api.get_all_special_powers(this.character_id)
-                .then(data => this.spPowers.powers = data)
-        },
-
-        //Special Powers
-        async onUseSPCharge(power_id, charge_id, checked) {
-            this.spPowers.powers[power_id].charges[charge_id] = checked;
-
-            var power = this.spPowers.powers[power_id];
-            var res = await sp_api.set(
-                power.id,
-                power.name,
-                power.charges.length,
-                utils.calculate_used_charges(power.charges));
-
-            this.spPowers.powers[power_id].charges[charge_id] = res ? checked : !checked;
-        },
-
-        async restoreAllSPs(power_id) {
-
-            var power = this.spPowers.powers[power_id];
-            var res = await sp_api.set(
-                power.id,
-                power.name,
-                power.charges.length,
-                0);
-
-            if (res) {
-                for (var i = 0; i < power.charges.length; i++) {
-                    power.charges[i] = false;
-                }
-            }
-        },
-
         //Consumables
         async changeConsumableAmount(consumable_id, addition) {
             var cons = this.consumables[consumable_id];
@@ -210,8 +118,7 @@ export default {
                 character_id: this.character_id
             }
             var res = await consumable_api.create(obj.name, obj.amount, obj.descr, this.character_id);
-            if (res.status)
-            {
+            if (res.status) {
                 item.id = res.new_id;
                 this.consumables.push(item);
             }
@@ -221,8 +128,7 @@ export default {
             const cons = this.consumables.splice(consumable_id, 1);
 
             var res = await consumable_api.delete(cons[0].id);
-            if (!res)
-            {
+            if (!res) {
                 this.consumables.push(cons[0]);
             }
         },
@@ -276,8 +182,7 @@ export default {
             const item = this.artifacts.splice(artifact_id, 1);
 
             var res = await artifact_api.delete(item[0].id);
-            if (!res)
-            {
+            if (!res) {
                 this.artifacts.push(item[0]);
             }
         },
@@ -294,8 +199,7 @@ export default {
             const item = this.bPItems.splice(item_id, 1);
 
             var res = await backpack_api.delete(item[0].id);
-            if (!res)
-            {
+            if (!res) {
                 this.bPItems.push(item[0]);
             }
         },
@@ -308,8 +212,7 @@ export default {
             }
 
             var res = await backpack_api.create(new_item.name, new_item.amount, new_item.descr, this.character_id);
-            if (res.status)
-            {
+            if (res.status) {
                 new_item.id = res.new_id;
                 this.bPItems.push(new_item)
             }
@@ -322,21 +225,19 @@ export default {
                 amount: obj.amount,
                 character_id: this.character_id
             }
-            debugger
+
             var res = await backpack_api.create(obj.name, obj.amount, obj.descr, this.character_id);
-            if (res.status)
-            {
+            if (res.status) {
                 item.id = res.new_id;
                 this.bPItems.push(item)
             }
         }
     },
     mounted() {
-        spell_api.get_all_spell_levels(this.character_id).then(data => this.spellSlots.levels = data)
-        sp_api.get_all_special_powers(this.character_id).then(data => this.spPowers.powers = data)
-        consumable_api.get_all_consumables(this.character_id).then(data => this.consumables = data)
-        artifact_api.get_all_artifacts(this.character_id).then(data => this.artifacts = data)
-        backpack_api.get_all_items(this.character_id).then(data => this.bPItems = data)
+        const user_id = this.userSession.selectedCharacter.id;
+        consumable_api.get_all_consumables(user_id).then(data => this.consumables = data)
+        artifact_api.get_all_artifacts(user_id).then(data => this.artifacts = data)
+        backpack_api.get_all_items(user_id).then(data => this.bPItems = data)
     }
 }
 
@@ -347,31 +248,11 @@ export default {
     <div class="container mt-2 mb-4">
         <div class="row">
             <div class="pt-4 col-sm-12 col-md-6">
-                <TitleWithEdit :title="spellSlots.title" :id_for_modal_selector="'#SpellSlotsModal'" />
-                <EditChargesForm :title="spellSlots.title" :form_id="'SpellSlotsModal'" :ref_levels="spellSlots.levels"
-                    :character_id="character_id" @UpdateSpells="ReloadSpells" />
-
-                <ul class="pt-2 list-group">
-                    <li class="list-group-item" v-for="(level, index) in spellSlots.levels" :key="index">
-                        <SpellCharge :title="intToRoman(level.level) + ' Level'" :charges="level.charges"
-                            @CheckBoxClick="(id, checked) => onUseSpellCharge(index, id, checked)"
-                            @restoreAll="() => restoreAllSpellCharges(index)" />
-                    </li>
-                </ul>
+                <SpellSlots :character="this.userSession.selectedCharacter"></SpellSlots>
             </div>
 
             <div class="pt-4 col-sm-12 col-md-6">
-                <TitleWithEdit :title="spPowers.title" :id_for_modal_selector="'#SpecialPowersModal'" />
-                <EditSpPowersForm :title="spPowers.title" :form_id="'SpecialPowersModal'" :ref_powers="spPowers.powers"
-                    :character_id="character_id" @UpdatePowers="ReloadSpecialPowers" />
-
-                <ul class="pt-2 list-group">
-                    <li class="list-group-item" v-for="(power, index) in spPowers.powers">
-                        <SpellCharge :title="power.name" :charges="power.charges" :key="index"
-                            @CheckBoxClick="(id, checked) => onUseSPCharge(index, id, checked)"
-                            @restoreAll="() => restoreAllSPs(index)" />
-                    </li>
-                </ul>
+                <SpecialPowers :character="this.userSession.selectedCharacter"></SpecialPowers>
             </div>
 
             <div class="pt-4 col-sm-12 col-md-6">
@@ -379,8 +260,8 @@ export default {
                 <ul class="pt-2 list-group">
                     <li v-for="(item, index) in consumables" class="list-group-item">
                         <Consumable :name="item.name" :descr="item.descr" :amount="item.amount"
-                            @ChangeAmount="(addition) => changeConsumableAmount(index, addition)" 
-                            @Delete="() => deleteConsumable(index)"/>
+                            @ChangeAmount="(addition) => changeConsumableAmount(index, addition)"
+                            @Delete="() => deleteConsumable(index)" />
                     </li>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal"
@@ -399,8 +280,7 @@ export default {
                     <div v-for="(artif, index) in artifacts" class="list-group-item">
                         <Artifacts :name="artif.name" :descr="artif.descr" :charges="artif.charges"
                             @CheckBoxClick="(id, checked) => onUseArtifactCharge(index, id, checked)"
-                            @restoreAll="() => restoreAllArtifactCharges(index)" 
-                            @remove="() => deleteArtifact(index)"/>
+                            @restoreAll="() => restoreAllArtifactCharges(index)" @remove="() => deleteArtifact(index)" />
                     </div>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal"

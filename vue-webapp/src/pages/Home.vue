@@ -1,30 +1,20 @@
-<script>
-import Title from '@/components/Title.vue'
-
-
+<script lang="ts">
+import Title from '@/components/bits/Title.vue'
 import utils from '@/utils'
-
 import character_api from '@/apis/character_api'
 import user_api from '@/apis/user_api'
+import type { Character } from '@/models/character'
+
+import { useUserStore } from '../stores/user-session'
 
 export default {
     components: {
         Title,
     },
-    emits: ["setCharacter"],
-    props:
-    {
-        user_id: Number
-    },
     data() {
         return {
-            characters: [
-                {
-                    id: 1,
-                    name: "jeifjiefj",
-                    level: 2
-                }
-            ],
+            userSession: useUserStore(),
+            characters: Array<Character>(),
             new_name: "",
             new_level: 1,
             new_class: ""
@@ -34,29 +24,24 @@ export default {
     {
         async addNew() {
             var item = {
+                id: -1,
                 name: this.new_name,
                 level: this.new_level,
-                class_name: this.new_class,
-            }
-            var res = await character_api.create(this.new_name, this.new_level, this.new_class, this.user_id);
-            if (res.status)
-            {
+                className: this.new_class,
+            } as Character;
+            var res = await character_api.create(this.new_name, this.new_level, this.new_class, this.userSession.id);
+            if (res.status) {
                 item.id = res.new_id;
                 this.characters.push(item);
             }
         },
 
-        select(index) {
-            this.$emit('setCharacter',
-                {
-                    id: this.characters[index].id,
-                    name: this.characters[index].name
-                }
-            )
+        select(index: number) {
+            this.userSession.setCharacter(this.characters[index]);
         }
     },
     mounted() {
-        character_api.get_all_characters(this.user_id).then(data => this.characters = data)
+        character_api.get_all_characters(this.userSession.id).then((data: Array<Character>) => this.characters = data)
     }
 }
 
@@ -69,15 +54,18 @@ export default {
 
         <ul class="pt-2 list-group">
             <li class="list-group-item" v-for="(ch, index) in characters">
-                <div @click="select(index)">
+                <!-- <div @click="select(index)">
                     {{ ch.name + " " + ch.level + " level " }}
-                </div>
+                </div> -->
+                <router-link to="/character" :tag="button" @click.native="select(index)">
+                    {{ ch.name + " " + ch.level + " level " }}
+                </router-link>
             </li>
             <li class="list-group-item">
                 <div class="row">
                     <div class="col">
                         <label for="NameInput" class="form-label">Name</label>
-                        <input v-model="new_name" type="text" class="form-control" id="NameInput" required="" />
+                        <input v-model="new_name" type="text" class="form-control" id="NameInput" required="true" />
                     </div>
                     <div class="col">
                         <label class="form-label" for="LevelInput">Level</label>
@@ -85,7 +73,7 @@ export default {
                     </div>
                     <div class="col">
                         <label for="ClassInput" class="form-label">Class</label>
-                        <input v-model="new_class" type="text" class="form-control" id="ClassInput" required="" />
+                        <input v-model="new_class" type="text" class="form-control" id="ClassInput" required="true" />
                     </div>
                 </div>
                 <div class="row mt-2">
