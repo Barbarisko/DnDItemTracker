@@ -29,8 +29,8 @@ jobs:
         name: Build and push Frontend image
         uses: docker/build-push-action@v4
         with:
-          context: ./vue-webapp/ItemTracker/.
-          file: ./vue-webapp/ItemTracker/Dockerfile
+          context: ./vue-webapp/.
+          file: ./vue-webapp/Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/item-tracker-front:${{github.run_number}}
