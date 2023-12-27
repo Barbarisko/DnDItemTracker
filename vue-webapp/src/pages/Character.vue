@@ -19,6 +19,8 @@ import spell_api from '@/apis/spell_api'
 import user_api from '@/apis/user_api'
 import EditSpPowersForm from '@/components/EditSpPowersForm.vue'
 
+import { useUserStore } from '../stores/user-session'
+
 export default {
     components: {
     Title,
@@ -31,14 +33,10 @@ export default {
     EditChargesForm,
     EditSpPowersForm
 },
-    props: {
-        user_id: Number,
-        character_id: Number,
-    },
     data() {
 
         return {
-
+            userSession: useUserStore(),
             spellSlots:
             {
                 title: 'Spell Slots',
@@ -332,11 +330,13 @@ export default {
         }
     },
     mounted() {
-        spell_api.get_all_spell_levels(this.character_id).then(data => this.spellSlots.levels = data)
-        sp_api.get_all_special_powers(this.character_id).then(data => this.spPowers.powers = data)
-        consumable_api.get_all_consumables(this.character_id).then(data => this.consumables = data)
-        artifact_api.get_all_artifacts(this.character_id).then(data => this.artifacts = data)
-        backpack_api.get_all_items(this.character_id).then(data => this.bPItems = data)
+        debugger
+        const user_id = this.userSession.selectedCharacter.id;
+        spell_api.get_all_spell_levels(user_id).then(data => this.spellSlots.levels = data)
+        sp_api.get_all_special_powers(user_id).then(data => this.spPowers.powers = data)
+        consumable_api.get_all_consumables(user_id).then(data => this.consumables = data)
+        artifact_api.get_all_artifacts(user_id).then(data => this.artifacts = data)
+        backpack_api.get_all_items(user_id).then(data => this.bPItems = data)
     }
 }
 
