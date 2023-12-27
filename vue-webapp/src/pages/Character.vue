@@ -34,7 +34,6 @@ export default {
     EditSpPowersForm
 },
     data() {
-
         return {
             userSession: useUserStore(),
             spellSlots:

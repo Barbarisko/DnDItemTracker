@@ -1,4 +1,4 @@
-<script>
+<script  lang="ts">
 import user_api from '@/apis/user_api'
 import utils from '@/utils'
 import * as SESSION from '../logic/login'
@@ -15,7 +15,7 @@ export default {
         }
     },
     methods: {
-        onChangeMode(event) {
+        onChangeMode(event: any) {
             if (event.target.id == "modeLogin") {
                 this.registerMode = false;
             }
@@ -38,10 +38,12 @@ export default {
             if (res.status) {
                 SESSION.logIn({
                     id: res.new_id,
-                    logged_in: true,
+                    loggedIn: true,
                     name: this.username,
                     selectedCharacter: { id: -1, name: "" }
                 });
+                debugger
+                this.$router.push('Home') 
             }
             else {
                 //give some error
