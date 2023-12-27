@@ -46,7 +46,7 @@ export default {
             this.levels.push(new_el);
         },
         async onSave(event: any) {
-            if(!this.ref_levels) return;
+            if (!this.ref_levels) return;
             this.levels.forEach(el => {
                 if (el.usedCharges > el.charges) {
                     el.usedCharges = el.charges;
@@ -73,7 +73,6 @@ export default {
             if (!this.form_id) return;
             const myModal = document.getElementById(this.form_id)
             if (myModal == null) return;
-            debugger
             var modal = bootstrap.Modal.getInstance(myModal)
             modal?.hide();
             this.$emit('UpdateSpells');
@@ -83,9 +82,9 @@ export default {
         }
     },
     watch: {
-        ref_levels(newLevels: Array<SpellSlot>, oldLevels:any) {
+        ref_levels(newLevels: Array<SpellSlot>, oldLevels: any) {
             this.levels = []
-            debugger
+
             newLevels.forEach(el => {
                 this.levels.push({
                     id: el.id,

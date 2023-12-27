@@ -40,10 +40,9 @@ export default {
                     id: res.new_id,
                     loggedIn: true,
                     name: this.username,
-                    selectedCharacter: { id: -1, name: "" }
+                    selectedCharacter: { id: -1, name: "", className: "", level: -1 }
                 });
-                debugger
-                this.$router.push('Home') 
+                this.$router.push('Home')
             }
             else {
                 //give some error

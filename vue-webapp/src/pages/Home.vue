@@ -37,7 +37,6 @@ export default {
         },
 
         select(index: number) {
-            debugger
             this.userSession.setCharacter(this.characters[index]);
         }
     },

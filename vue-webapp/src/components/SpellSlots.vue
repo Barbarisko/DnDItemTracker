@@ -61,18 +61,14 @@ export default defineComponent({
             this.spellSlots = []
             if (this.character == undefined) return;
             spell_api.get_all_spell_levels(this.character.id)
-                .then((data: Array<SpellSlot>) => {
-                    debugger
-                    this.spellSlots = data
-                })
+                .then((data: Array<SpellSlot>) => this.spellSlots = data)
         },
         intToRoman(num: number) {
             return utils.intToRoman(num);
         }
     },
     mounted() {
-        debugger
-            this.ReloadSpells();
+        this.ReloadSpells();
     }
 })
 </script>

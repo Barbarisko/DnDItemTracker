@@ -20,7 +20,6 @@ export default {
             this.powers.splice(index, 1);
         },
         onAdd(event) {
-            debugger
             var new_el = {
                 id: -1,
                 name: "",
@@ -38,7 +37,6 @@ export default {
 
             var future_list = []
             // delete removed levels
-            debugger
             const delete_list = this.ref_powers.filter((ref_element) => !this.powers.some((element) => element.id === ref_element.id));
             delete_list.forEach(el => future_list.push(sp_api.delete(el.id)))
 
@@ -90,9 +88,10 @@ export default {
                             <form class="row ps-2 pe-2 needs-validation" novalidate>
                                 <div class="col-6 fs-4 ps-0">
 
-                                    <input v-model="power.name"  type="text" class="form-control" id="name_validator" required>
+                                    <input v-model="power.name" type="text" class="form-control" id="name_validator"
+                                        required>
                                     <div v-if="power.name == ''" class="invalid-feedback">
-                                    Please provide a valid name.
+                                        Please provide a valid name.
                                     </div>
                                 </div>
                                 <div class="col-3">

@@ -35,7 +35,10 @@ export default {
         // }
     },
     mounted() {
-
+        try {
+            SESSION.restoreUser();
+        }
+        catch (e) { }
     }
 }
 </script>

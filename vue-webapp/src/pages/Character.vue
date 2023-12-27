@@ -25,17 +25,17 @@ import { useUserStore } from '../stores/user-session'
 
 export default {
     components: {
-    Title,
-    TitleWithEdit,
-    SpellCharge,
-    Consumable,
-    Artifacts,
-    BackpackItem,
-    NewItemForm,
-    EditChargesForm,
-    EditSpPowersForm,
-    SpellSlots
-},
+        Title,
+        TitleWithEdit,
+        SpellCharge,
+        Consumable,
+        Artifacts,
+        BackpackItem,
+        NewItemForm,
+        EditChargesForm,
+        EditSpPowersForm,
+        SpellSlots
+    },
     data() {
         return {
             userSession: useUserStore(),
@@ -166,8 +166,7 @@ export default {
                 character_id: this.character_id
             }
             var res = await consumable_api.create(obj.name, obj.amount, obj.descr, this.character_id);
-            if (res.status)
-            {
+            if (res.status) {
                 item.id = res.new_id;
                 this.consumables.push(item);
             }
@@ -177,8 +176,7 @@ export default {
             const cons = this.consumables.splice(consumable_id, 1);
 
             var res = await consumable_api.delete(cons[0].id);
-            if (!res)
-            {
+            if (!res) {
                 this.consumables.push(cons[0]);
             }
         },
@@ -232,8 +230,7 @@ export default {
             const item = this.artifacts.splice(artifact_id, 1);
 
             var res = await artifact_api.delete(item[0].id);
-            if (!res)
-            {
+            if (!res) {
                 this.artifacts.push(item[0]);
             }
         },
@@ -250,8 +247,7 @@ export default {
             const item = this.bPItems.splice(item_id, 1);
 
             var res = await backpack_api.delete(item[0].id);
-            if (!res)
-            {
+            if (!res) {
                 this.bPItems.push(item[0]);
             }
         },
@@ -264,8 +260,7 @@ export default {
             }
 
             var res = await backpack_api.create(new_item.name, new_item.amount, new_item.descr, this.character_id);
-            if (res.status)
-            {
+            if (res.status) {
                 new_item.id = res.new_id;
                 this.bPItems.push(new_item)
             }
@@ -278,17 +273,15 @@ export default {
                 amount: obj.amount,
                 character_id: this.character_id
             }
-            debugger
+
             var res = await backpack_api.create(obj.name, obj.amount, obj.descr, this.character_id);
-            if (res.status)
-            {
+            if (res.status) {
                 item.id = res.new_id;
                 this.bPItems.push(item)
             }
         }
     },
     mounted() {
-        debugger
         const user_id = this.userSession.selectedCharacter.id;
         sp_api.get_all_special_powers(user_id).then(data => this.spPowers.powers = data)
         consumable_api.get_all_consumables(user_id).then(data => this.consumables = data)
@@ -326,8 +319,8 @@ export default {
                 <ul class="pt-2 list-group">
                     <li v-for="(item, index) in consumables" class="list-group-item">
                         <Consumable :name="item.name" :descr="item.descr" :amount="item.amount"
-                            @ChangeAmount="(addition) => changeConsumableAmount(index, addition)" 
-                            @Delete="() => deleteConsumable(index)"/>
+                            @ChangeAmount="(addition) => changeConsumableAmount(index, addition)"
+                            @Delete="() => deleteConsumable(index)" />
                     </li>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal"
@@ -346,8 +339,7 @@ export default {
                     <div v-for="(artif, index) in artifacts" class="list-group-item">
                         <Artifacts :name="artif.name" :descr="artif.descr" :charges="artif.charges"
                             @CheckBoxClick="(id, checked) => onUseArtifactCharge(index, id, checked)"
-                            @restoreAll="() => restoreAllArtifactCharges(index)" 
-                            @remove="() => deleteArtifact(index)"/>
+                            @restoreAll="() => restoreAllArtifactCharges(index)" @remove="() => deleteArtifact(index)" />
                     </div>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal"
