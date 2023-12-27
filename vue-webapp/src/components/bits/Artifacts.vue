@@ -1,5 +1,5 @@
 <script>
-import artifact_api from '../apis/artifact_api';
+import artifact_api from '@/apis/artifact_api';
 
 
 export default {

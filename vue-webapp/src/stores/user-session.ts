@@ -29,12 +29,15 @@ export const useUserStore = defineStore('user', {
       this.name = "";
     },
     setCharacter(ch: Character) {
-      this.selectedCharacter = ch;
+      debugger
+      this.selectedCharacter = JSON.parse(JSON.stringify(ch)) as Character;
     },
     resetCharacter() {
       this.selectedCharacter = {
         id: -1,
-        name: ""
+        name: "",
+        level: -1,
+        className: ""
       }
     }
   }

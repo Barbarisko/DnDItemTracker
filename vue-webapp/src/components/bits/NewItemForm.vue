@@ -1,5 +1,5 @@
 <script>
-import Artifacts from '@/components/Artifacts.vue'
+import Artifacts from '@/components/bits/Artifacts.vue'
 import artifact_api from '@/apis/artifact_api'
 
 export default {

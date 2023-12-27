@@ -1,5 +1,5 @@
 <script lang="ts">
-import Title from '@/components/Title.vue'
+import Title from '@/components/bits/Title.vue'
 import utils from '@/utils'
 import character_api from '@/apis/character_api'
 import user_api from '@/apis/user_api'
@@ -38,7 +38,7 @@ export default {
 
         select(index: number) {
             debugger
-            this.userSession.setCharacter(structuredClone(this.characters[index]));
+            this.userSession.setCharacter(this.characters[index]);
         }
     },
     mounted() {

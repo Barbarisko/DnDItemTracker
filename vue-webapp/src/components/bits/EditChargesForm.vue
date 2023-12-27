@@ -1,30 +1,41 @@
-<script>
+<script lang="ts">
+
 import utils from '@/utils'
 import spell_api from '@/apis/spell_api'
+import type { SpellSlot } from '@/models/spellslot';
+import type { PropType } from 'vue';
+import * as bootstrap from 'bootstrap'
+
+interface TempLevel {
+    id: number,
+    level: number,
+    charges: number,
+    usedCharges: number,
+}
 
 export default {
     props: {
         title: String,
         form_id: String,
-        ref_levels: Object,
+        ref_levels: Object as PropType<Array<SpellSlot>>,
         character_id: Number
     },
     emits: ["UpdateSpells"],
     data() {
         return {
-            levels: []
+            levels: Array<TempLevel>()
         }
     },
     methods: {
-        onDelete(index) {
+        onDelete(index: number) {
             this.levels.splice(index, 1);
         },
-        onAdd(event) {
+        onAdd(event: any) {
             var new_el = {
                 id: -1,
                 level: -1,
                 charges: 1,
-                used_charges: 0
+                usedCharges: 0
             }
             if (this.levels.length <= 0) {
                 new_el.level = 1;
@@ -34,48 +45,53 @@ export default {
             }
             this.levels.push(new_el);
         },
-        async onSave(event) {
+        async onSave(event: any) {
+            if(!this.ref_levels) return;
             this.levels.forEach(el => {
-                if (el.used_charges > el.charges) {
-                    el.used_charges = el.charges;
+                if (el.usedCharges > el.charges) {
+                    el.usedCharges = el.charges;
                 }
             })
 
-            var future_list = []
+            var future_list: any = []
             // delete removed levels
             const delete_list = this.ref_levels.filter((ref_element) => !this.levels.some((element) => element.id === ref_element.id));
             delete_list.forEach(el => future_list.push(spell_api.delete(el.id)))
 
             // update existing 
             const update_list = this.levels.filter((element) => element.id != -1);
-            update_list.forEach(el => future_list.push(spell_api.set(el.id, el.level, el.charges, el.used_charges)))
+            update_list.forEach(el => future_list.push(spell_api.set(el.id, el.level, el.charges, el.usedCharges)))
 
             // add new
             const add_list = this.levels.filter((element) => element.id == -1);
-            add_list.forEach(el => future_list.push(spell_api.create(el.level, el.charges, el.used_charges, this.character_id)))
+            add_list.forEach(el => future_list.push(spell_api.create(el.level, el.charges, el.usedCharges, this.character_id)))
 
             for (var i = 0; i < future_list.length; i++) {
                 await future_list[i];
             }
 
+            if (!this.form_id) return;
             const myModal = document.getElementById(this.form_id)
+            if (myModal == null) return;
+            debugger
             var modal = bootstrap.Modal.getInstance(myModal)
-            modal.hide();
+            modal?.hide();
             this.$emit('UpdateSpells');
         },
-        name(level) {
+        name(level: number) {
             return utils.intToRoman(level) + " Level"
         }
     },
     watch: {
-        ref_levels(newLevels, oldLevels) {
+        ref_levels(newLevels: Array<SpellSlot>, oldLevels:any) {
             this.levels = []
+            debugger
             newLevels.forEach(el => {
                 this.levels.push({
                     id: el.id,
                     level: el.level,
                     charges: el.charges.length,
-                    used_charges: utils.calculate_used_charges(el.charges)
+                    usedCharges: utils.calculate_used_charges(el.charges)
                 })
             });
         }
@@ -93,7 +109,7 @@ export default {
                 </div>
                 <div class="modal-body">
                     <ul class="pt-2 list-group">
-                        <li class="list-group-item" v-for="(level, index) in this.levels" :key="index">
+                        <li class="list-group-item" v-for="(level, index) in levels" :key="index">
                             <div class="row ps-2 pe-2">
                                 <div class="col-6 fs-4 ps-0">
                                     {{ name(level.level) }}
