@@ -1,4 +1,6 @@
 export interface Character {
     id: number,
-    name: string
+    name: string,
+    level: number,
+    className: string
 }
