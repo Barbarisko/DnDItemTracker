@@ -57,7 +57,7 @@ export default {
                 <!-- <div @click="select(index)">
                     {{ ch.name + " " + ch.level + " level " }}
                 </div> -->
-                <router-link to="/character" :tag="button" @click.native="select(index)">
+                <router-link to="/character" style="text-decoration: none; color: inherit;" @click.native="select(index)">
                     {{ ch.name + " " + ch.level + " level " }}
                 </router-link>
             </li>

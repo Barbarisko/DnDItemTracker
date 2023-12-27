@@ -41,7 +41,7 @@ export default {
                 new_el.level = 1;
             }
             else {
-                new_el.level = this.levels.at(-1).level + 1;
+                new_el.level = this.levels[this.levels.length - 1].level + 1;
             }
             this.levels.push(new_el);
         },
